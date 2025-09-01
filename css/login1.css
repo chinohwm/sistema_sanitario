@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('img/usuario.png'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Para asegurar que la imagen cubra todo el cuerpo */
+    background-repeat: no-repeat; /* Para evitar la repetición de la imagen de fondo */
+    background-attachment: fixed; /* Para que la imagen de fondo permanezca fija mientras se desplaza la página */
+    background-color: rgb(32, 152, 221);
+    display: flex; /* Añadido para centrar el formulario */
+    justify-content: center; /* Añadido para centrar el formulario horizontalmente */
+    align-items: center; /* Añadido para centrar el formulario verticalmente */
+    min-height: 100vh; /* Asegura que el body ocupe al menos el 100% del alto de la ventana */
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
+    border-radius: 15px; /* Bordes más redondeados */
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada */
+    max-width: 380px; /* Ancho máximo ligeramente mayor */
+    width: 90%; /* Ancho responsivo */
+    text-align: center;
+    backdrop-filter: blur(5px); /* Efecto de desenfoque en el fondo del formulario */
+}
+
+h2 {
+    color: #fffefe; /* Color azul más vibrante para el título */
+    margin-bottom: 25px;
+    font-size: 2em; /* Tamaño de fuente más grande */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra de texto sutil */
+}
+
+form label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold; /* Texto de etiqueta más negrita */
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: calc(100% - 22px); /* Ajuste para el padding */
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd; /* Borde más sutil */
+    border-radius: 8px; /* Bordes más redondeados */
+    font-size: 1.1em; /* Tamaño de fuente ligeramente mayor */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave al enfocar */
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Sombra al enfocar */
+    outline: none; /* Eliminar el contorno por defecto */
+}
+
+form input[type="submit"] {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-image: linear-gradient(to right, #007bff, #0056b3); /* Degradado de azul */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+    transition: all 0.3s ease; /* Transición suave para todos los efectos */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); /* Sombra para el botón */
+}
+
+form input[type="submit"]:hover {
+    background-image: linear-gradient(to right, #0056b3, #004085); /* Cambio de degradado al pasar el mouse */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4); /* Sombra más pronunciada al pasar el mouse */
+    transform: translateY(-2px); /* Ligero desplazamiento hacia arriba */
+}
+
+.avatar-container {
+    text-align: center;
+    margin-bottom: 25px; /* Más espacio debajo del avatar */
+}
+
+.avatar-container img {
+    width: 120px; /* Tamaño del avatar ligeramente más grande */
+    height: 120px; /* Asegura que sea un círculo perfecto */
+    border-radius: 50%; /* Para hacer la imagen redonda */
+    border: 4px solid #007bff; /* Borde alrededor del avatar */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Sombra para el avatar */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien */
+}
+
+/* Estilo para los mensajes de error */
+.error-message {
+    color: #dc3545; /* Rojo de Bootstrap para errores */
+    margin-top: 10px;
+    font-weight: bold;
+}

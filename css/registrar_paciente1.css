@@ -1,0 +1,123 @@
+/* --- Estilos Generales y Fondo --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #111827; /* Fondo oscuro */
+    background-image: linear-gradient(145deg, #1e293b 0%, #0c0a09 100%);
+    color: #f9fafb;
+    padding: 2rem 1rem; /* Espacio para que el formulario no pegue con los bordes */
+    margin: 0;
+}
+
+/* --- Estilos del Formulario --- */
+.form_paciente {
+    max-width: 500px; /* Ancho máximo del formulario */
+    margin: 1rem auto; /* Centrado automático */
+    padding: 2.5rem;
+    background: rgba(31, 41, 55, 0.5); /* Efecto cristal */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-sizing: border-box; /* Previene que el padding altere el ancho */
+}
+
+.form_paciente h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 0; /* Quita el margen superior del título */
+    margin-bottom: 1.5rem; /* Espacio debajo del título */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* --- Estilos para las etiquetas --- */
+.form_paciente label {
+    display: inline-block; /* Permite aplicar margen */
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #d1d5db; /* Color de texto más suave */
+    margin-bottom: 0.5rem;
+}
+
+/* --- Estilos para los campos de entrada y select --- */
+.form_paciente input[type="text"],
+.form_paciente input[type="number"],
+.form_paciente input[type="date"],
+.form_paciente select {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 1rem; /* Espacio entre campos */
+    background-color: rgba(17, 24, 39, 0.7); /* Fondo oscuro translúcido */
+    border: 1px solid #4b5563; /* Borde sutil */
+    border-radius: 8px;
+    color: #f9fafb; /* Texto blanco */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder (texto de ejemplo en los inputs) */
+.form_paciente input::placeholder {
+    color: #9ca3af;
+}
+
+/* Estilo para el icono del calendario en input[type="date"] */
+.form_paciente input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8); /* Cambia el color del ícono del calendario a uno más claro */
+    cursor: pointer;
+}
+
+
+/* Estilo al seleccionar un campo */
+.form_paciente input[type="text"]:focus,
+.form_paciente input[type="number"]:focus,
+.form_paciente input[type="date"]:focus,
+.form_paciente select:focus {
+    outline: none;
+    border-color: #3b82f6; /* Borde azul al enfocar */
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); /* Resplandor azul */
+}
+
+/* Estilo para el desplegable (select) */
+.form_paciente select {
+    appearance: none; /* Oculta la flecha por defecto */
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+.form_paciente select option {
+    background: #1f2937; /* Fondo oscuro para las opciones */
+    color: #f9fafb;
+}
+
+/* --- Estilo del Botón "CARGAR" --- */
+.form_paciente input[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    margin-top: 1rem; /* Espacio sobre el botón */
+    background-image: linear-gradient(90deg, #10b981, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    background-size: 200% auto;
+}
+
+.form_paciente input[type="submit"]:hover {
+    background-position: right center; /* Cambia el gradiente al pasar el mouse */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}

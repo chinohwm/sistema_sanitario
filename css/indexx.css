@@ -1,0 +1,900 @@
+/* Variables CSS para consistencia y mantenimiento */
+:root {
+    --primary-orange: #FFA500;
+    --primary-blue: #2563eb;
+    --accent-blue: hsl(199, 86%, 51%);
+    --success-green: #08be17;
+    --danger-red: #dc2626;
+    --bg-light: #f4f4f4;
+    --bg-white: #ffffff;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --border-light: #e5e7eb;
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Estilos generales mejorados */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg-light) 0%, #e8e8e8 100%);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--text-dark);
+    min-height: 100vh;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-medium);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-orange), var(--accent-blue), var(--success-green));
+    border-radius: 16px 16px 0 0;
+}
+
+/* Títulos mejorados */
+h1 {
+    color: var(--primary-orange);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    animation: bounceIn 0.8s ease-out;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-orange), var(--accent-blue));
+    border-radius: 2px;
+    animation: slideInRight 1s ease-out 0.5s both;
+}
+
+/* Enlaces mejorados */
+a {
+    text-decoration: none;
+    transition: all var(--transition-medium);
+    position: relative;
+}
+
+a.eliminar {
+    color: var(--danger-red);
+    font-weight: 500;
+}
+
+a.eliminar:hover {
+    color: #b91c1c;
+    text-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+a.editar {
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+a.editar:hover, 
+a.ver:hover {
+    color: var(--success-green);
+    text-shadow: 0 2px 4px rgba(8, 190, 23, 0.2);
+    transform: translateY(-1px);
+}
+
+/* ======================================
+   ESTILOS PARA BÚSQUEDA EN TIEMPO REAL
+   ====================================== */
+
+
+.search-container {
+    position: relative;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+/* ========================================
+   Input de Búsqueda con Ícono
+======================================== */
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-input-wrapper::before {
+    content: '🔍';
+    position: absolute;
+    left: -40px;
+    top: 22%;
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+    color: var(--text-light);
+    z-index: 2;
+    transition: all var(--transition-medium);
+}
+
+.search-input-wrapper:focus-within::before {
+    color: var(--accent-blue);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ========================================
+   Estilo del Input
+======================================== */
+#search-input {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 14px 16px 14px 50px !important;
+    font-size: 1rem;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    background: var(--bg-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin: 8px 0 20px;
+    transition: all var(--transition-medium);
+}
+
+#search-input:focus {
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-1px) !important;
+    outline: none;
+}
+
+#search-input::placeholder {
+    color: var(--text-light);
+    font-style: italic;
+}
+.search-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: -10px;
+}
+
+.search-result-count {
+    font-size: 0.95rem;
+    color: #2e7d32;
+    font-weight: 500;
+    background-color: #d1f7dc;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.search-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.btn {
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-search {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.btn-clear {
+    background-color: transparent;
+    color: #6c2bd9;
+    text-decoration: underline;
+    padding: 10px;
+}
+.search-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: -10px;
+}
+
+.search-result-count {
+    font-size: 0.95rem;
+    color: #2e7d32;
+    font-weight: 500;
+    background-color: #d1f7dc;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.search-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+}
+
+.btn-search {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.btn-clear {
+    background-color: transparent;
+    color: #6c2bd9;
+    text-decoration: underline;
+    padding: 10px;
+}
+
+
+/* ========================================
+   Resaltado de Coincidencias
+======================================== */
+.search-highlight {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    color: var(--text-dark);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    animation: highlightPulse 0.6s ease-out;
+    transition: all var(--transition-fast);
+}
+
+@keyframes highlightPulse {
+    0% {
+        background: var(--primary-orange);
+        color: white;
+        transform: scale(1.05);
+    }
+    100% {
+        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        color: var(--text-dark);
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   Indicador y Estado de Búsqueda
+======================================== */
+.search-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 24px;
+    transition: all var(--transition-medium);
+}
+
+.search-status-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px; /* Ajustar para cambiar posición vertical */
+}
+
+.search-status {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideInRight 0.3s ease-out;
+    transition: all var(--transition-medium);
+}
+
+/* ========================================
+   Animaciones
+======================================== */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+
+.search-status.success {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.search-status.no-results {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* Filas con coincidencias */
+.search-match {
+    background: #ffffff;
+    border-left: 3px solid var(--primary-orange) !important;
+    transform: scale(1.01) !important;
+}
+
+.search-match:hover {
+    background:  #ffffff;
+    transform: scale(1.02) !important;
+}
+
+/* Mensaje de sin resultados */
+.no-results-row {
+    background: transparent !important;
+}
+
+.no-results-message {
+    text-align: center !important;
+    padding: 40px 20px !important;
+    border: none !important;
+}
+
+.no-results-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-light);
+}
+
+.no-results-content svg {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+.no-results-content h3 {
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.no-results-content p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.no-results-content p strong {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+.no-results-content small {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+/* Formulario mejorado */
+form {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    margin: 8px 0 20px;
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    transition: all var(--transition-medium);
+    font-size: 1rem;
+    background: var(--bg-white);
+    position: relative;
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+input[type="text"]:hover {
+    border-color: var(--primary-orange);
+}
+
+/* Botones mejorados */
+button[type="submit"] {
+    background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+    min-width: 120px;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--success-green), #059669);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Iconos mejorados */
+img.lupa {
+    width: 22px;
+    height: 22px;
+    transition: all var(--transition-medium);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+img.lupa:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* Paginación mejorada */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 8px;
+    animation: slideInRight 0.6s ease-out 0.4s both;
+}
+
+.pagination a, 
+.pagination span {
+    color: var(--primary-orange);
+    padding: 10px 16px;
+    text-decoration: none;
+    border: 2px solid var(--primary-orange);
+    border-radius: 8px;
+    transition: all var(--transition-medium);
+    font-weight: 500;
+    min-width: 44px;
+    text-align: center;
+}
+
+.pagination a:hover {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+.pagination span {
+    background: var(--primary-orange);
+    color: white;
+    box-shadow: var(--shadow-light);
+}
+
+/* Contenedor de pacientes */
+.patients-container {
+    width: 100%;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+    margin-top: 20px;
+}
+
+/* Tabla de pacientes mejorada */
+.patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: var(--shadow-medium);
+    background: var(--bg-white);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.patients-table thead {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    color: white;
+    position: relative;
+}
+
+.patients-table thead::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-orange), transparent, var(--primary-orange));
+}
+
+.patients-table th, 
+.patients-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+    transition: all var(--transition-fast);
+}
+
+.patients-table th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.patients-table tbody tr {
+    transition: all var(--transition-fast);
+    animation: slideInRight 0.4s ease-out;
+}
+
+.patients-table tbody tr:hover {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.patient-id {
+    font-weight: 700;
+    color: var(--primary-blue);
+    position: relative;
+}
+
+.patient-id::before {
+    content: '#';
+    opacity: 0.5;
+    margin-right: 2px;
+}
+
+/* Acciones mejoradas */
+.actions {
+    width: 220px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-medium);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-width: 70px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-view {
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
+}
+
+.btn-view:hover {
+    background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: var(--danger-red);
+    border: 1px solid #fecaca;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.2);
+}
+
+/* Efectos de carga */
+.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Efectos responsivos mejorados */
+@media (max-width: 768px) {
+    .container {
+        margin: 15px;
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    .search-container {
+        margin-bottom: 20px;
+    }
+    
+    #search-input {
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+    
+    .search-status {
+        font-size: 0.8rem;
+        padding: 3px 10px;
+    }
+    
+    .no-results-content {
+        gap: 8px;
+    }
+    
+    .no-results-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .no-results-content p {
+        font-size: 0.9rem;
+    }
+    
+    .patients-table {
+        font-size: 0.85rem;
+    }
+    
+    .patients-table th, 
+    .patients-table td {
+        padding: 12px 8px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .search-input-wrapper::before {
+        left: 12px;
+    }
+    
+    #search-input {
+        padding-left: 40px !important;
+        padding-right: 12px !important;
+    }
+    
+    .patients-table th, 
+    .patients-table td {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+    }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .search-highlight,
+    .search-match,
+    .search-status,
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* Estilos básicos para el resaltado si no los tienes en index1.css */
+.search-highlight {
+    background-color: #fcf8e3; /* Un gris claro o amarillo suave para resaltar */
+    color: #333; /* Color de texto para el resaltado */
+    font-weight: bold;
+}
+.no-results-row {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+}
+.no-results-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #555;
+}
+.no-results-content svg {
+    color: #ccc;
+}
+.search-indicator {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+}
+.search-indicator .search-status.success {
+    color: #28a745; /* Verde para resultados */
+}
+.search-indicator .search-status.no-results {
+    color: #dc3545; /* Rojo para sin resultados */
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

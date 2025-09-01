@@ -1,0 +1,390 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e293b;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    color: #3b82f6;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #10b981;
+    border-radius: 2px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: none;
+}
+
+th {
+    background-color: #334155;
+    color: white;
+    padding: 20px 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 20px 15px;
+    text-align: left;
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+tr:hover td {
+    background-color: #e0f2fe;
+    transform: translateY(-2px);
+}
+
+tr:nth-child(even) td {
+    background: rgba(248, 250, 252, 0.8);
+}
+
+tr:nth-child(even):hover td {
+    background-color: #dbeafe;
+}
+
+.nuevo {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    background-color: #3b82f6;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.nuevo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.nuevo:hover::before {
+    left: 100%;
+}
+
+.nuevo:hover {
+    color: white;
+    font-size: 17px;
+    background-color: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+}
+
+.eliminar {
+    text-decoration: none;
+    color: #6b7280;
+    background-color: #f3f4f6;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.eliminar:hover {
+    color: white;
+    background-color: #ef4444;
+    font-size: 15px;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    border-color: #fecaca;
+}
+
+.editar {
+    text-decoration: none;
+    color: #6366f1;
+    background-color: #e0e7ff;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.editar:hover {
+    color: white;
+    background-color: #10b981;
+    font-size: 15px;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    border-color: #a7f3d0;
+}
+
+/* Animaciones adicionales */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+table {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Efectos de hover para las filas */
+tr {
+    transition: all 0.3s ease;
+}
+
+/* Responsividad mejorada */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 25px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 12px 8px;
+    }
+    
+    .nuevo {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+
+/* Efectos adicionales para los botones de acción */
+td:last-child {
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Mejora visual para el contenedor de botones */
+td a {
+    margin: 0 3px;
+}
+
+/* Estilos para formularios */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.8s ease-out;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+select:hover {
+    border-color: #64748b;
+    background-color: #fff;
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 50px;
+}
+
+select option {
+    padding: 10px;
+    background-color: #fff;
+    color: #334155;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 18px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+button[type="submit"]:hover {
+    background-color: #059669;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+}
+
+button[type="submit"]:active {
+    transform: translateY(-1px);
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Estilos para inputs hidden */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Animación para el formulario */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form {
+    animation: slideUp 0.6s ease-out;
+}
+
+/* Responsividad para formularios */
+@media (max-width: 768px) {
+    form {
+        margin: 20px;
+        padding: 30px 25px;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    select {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    button[type="submit"] {
+        padding: 15px;
+        font-size: 16px;
+    }
+    
+    label {
+        font-size: 14px;
+    }
+}
