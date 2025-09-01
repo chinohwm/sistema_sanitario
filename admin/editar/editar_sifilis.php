@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar VIH</title>
-    <link rel="icon" href="../img/icono.png"> 
+    <title>Editar Sífilis</title>
+    <link rel="icon" href="../../img/icono.png"> 
     <link rel="stylesheet" href="../css/editar.css">
 </head>
 <body>
@@ -21,60 +21,60 @@
             $id_cargo = $_SESSION['id_cargo'];
        
             if ($id_cargo == 1) {
-                include("../layouts/nav_admin.html"); 
+                include("../../layouts/nav_admin.html"); 
             } elseif ($id_cargo == 2) {
-                include("../layouts/nav_promotor.html"); 
+                include("../../layouts/nav_promotor.html"); 
             }
-        include ("../db/conexion.php");
+        include ("../../db/conexion.php");
 
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
 
-            $query_vih = "SELECT vih, observacion, derivacion FROM vih WHERE id_paciente = $id_paciente";
-            $resultado_vih = $conex->query($query_vih);
+            $query_sifilis = "SELECT sifilis, observacion, derivacion FROM sifilis WHERE id_paciente = $id_paciente";
+            $resultado_sifilis = $conex->query($query_sifilis);
 
-            if (!$resultado_vih) {
+            if (!$resultado_sifilis) {
                 die("Error en la consulta: " . $conex->error);
             }
 
-            if ($fila_vih = $resultado_vih->fetch_assoc()) {
+            if ($fila_sifilis = $resultado_sifilis->fetch_assoc()) {
     ?>
-                <h1>Editar Datos VIH</h1>
+                <h1>Editar Datos SIFILIS</h1>
                 <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>">
                     <input type="hidden" name="id_paciente" value="<?php echo $id_paciente; ?>">
-                    <label for="vih">VIH:</label>
-                    <select name="vih" id="vih">
-                        <option value="Positivo" <?php if ($fila_vih['vih'] == 'Positivo') echo 'selected'; ?>>Positivo</option>
-                        <option value="Negativo" <?php if ($fila_vih['vih'] == 'Negativo') echo 'selected'; ?>>Negativo</option>
+                    <label for="sifilis">Sífilis:</label>
+                    <select name="sifilis" id="sifilis">
+                        <option value="Positivo" <?php if ($fila_sifilis['sifilis'] == 'Positivo') echo 'selected'; ?>>Positivo</option>
+                        <option value="Negativo" <?php if ($fila_sifilis['sifilis'] == 'Negativo') echo 'selected'; ?>>Negativo</option>
                     </select><br>
                     <label for="observacion">Observación:</label>
-                    <textarea name="observacion" id="observacion"><?php echo $fila_vih['observacion']; ?></textarea><br>
+                    <textarea name="observacion" id="observacion"><?php echo $fila_sifilis['observacion']; ?></textarea><br>
                     <label for="derivacion">Derivación:</label>
                     <select name="derivacion" id="derivacion">
-                        <option value="Si" <?php if ($fila_vih['derivacion'] == 'Si') echo 'selected'; ?>>Si</option>
-                        <option value="No" <?php if ($fila_vih['derivacion'] == 'No') echo 'selected'; ?>>No</option>
+                        <option value="Si" <?php if ($fila_sifilis['derivacion'] == 'Si') echo 'selected'; ?>>Si</option>
+                        <option value="No" <?php if ($fila_sifilis['derivacion'] == 'No') echo 'selected'; ?>>No</option>
                     </select><br>
                     <button type="submit">Guardar Cambios</button>
                 </form>
     <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $vih = $_POST['vih'];
+                    $sifilis = $_POST['sifilis'];
                     $observacion = $_POST['observacion'];
                     $derivacion = $_POST['derivacion'];
 
-                    $query = "UPDATE vih SET vih='$vih', observacion='$observacion', derivacion='$derivacion' WHERE id_paciente=$id_paciente";
+                    $query = "UPDATE sifilis SET sifilis='$sifilis', observacion='$observacion', derivacion='$derivacion' WHERE id_paciente=$id_paciente";
 
                     if ($conex->query($query)) {
                         header("Location: ficha_paciente.php?id_paciente=$id_paciente");
                         exit();
                     } else {
-                        echo "Error al actualizar los datos de VIH: " . $conex->error;
+                        echo "Error al actualizar los datos de Sífilis: " . $conex->error;
                     }
                 }
 
                 $conex->close();
             } else {
-                echo "No se encontraron datos de VIH para el paciente con ID $id_paciente.";
+                echo "No se encontraron datos de Sífilis para el paciente con ID $id_paciente.";
             }
         } else {
             echo "No se ha especificado un ID de paciente.";

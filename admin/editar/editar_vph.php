@@ -4,47 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Sangre Oculta</title>
+    <title>Editar VPH</title>
     <link rel="icon" href="../img/icono.png"> 
-    <link rel="stylesheet" href="../css/editar_sangreoculta.css">
+    <link rel="stylesheet" href="../../css/editar.css">
 </head>
 <body>
+    <center>
     <?php
-            session_start();
+           session_start();
 
-            if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
-                header("Location: ../login.php");
-                exit();
-            }
-        
-            $id_cargo = $_SESSION['id_cargo'];
+           if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
+               header("Location: ../login.php");
+               exit();
+           }
        
-            if ($id_cargo == 1) {
-                include("../layouts/nav_admin.html"); 
-            } elseif ($id_cargo == 2) {
-                include("../layouts/nav_promotor.html"); 
-            }
-        include ("../db/conexion.php");
+           $id_cargo = $_SESSION['id_cargo'];
+      
+           if ($id_cargo == 1) {
+               include("../../layouts/nav_admin.html"); 
+           } elseif ($id_cargo == 2) {
+               include("../../layouts/nav_promotor.html"); 
+           }
+        include ("../../db/conexion.php");
 
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
                 $estado = $_POST['estado'];
                 $fecha = $_POST['fecha'];
                 $observacion = $_POST['observacion'];
 
-                $query = "UPDATE sangre_oculta SET estado='$estado', fecha='$fecha', observacion='$observacion' WHERE id_paciente=$id_paciente";
+                $query = "UPDATE vph SET estado='$estado', fecha='$fecha', observacion='$observacion' WHERE id_paciente=$id_paciente";
 
                 if ($conex->query($query)) {
-                    header("Location: ficha_paciente.php?id_paciente=$id_paciente");
+                    header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
                     exit();
                 } else {
-                    echo "Error al actualizar los datos de Sangre Oculta: " . $conex->error;
+                    echo "Error al actualizar los datos de VPH: " . $conex->error;
                 }
             }
 
-            $query_vph = "SELECT estado, fecha, observacion FROM sangre_oculta WHERE id_paciente = $id_paciente";
+            $query_vph = "SELECT estado, fecha, observacion FROM vph WHERE id_paciente = $id_paciente";
             $resultado_vph = $conex->query($query_vph);
 
             if (!$resultado_vph) {
@@ -52,29 +54,23 @@
             }
 
             if ($fila_vph = $resultado_vph->fetch_assoc()) {
-    ?> 
-            <div class="form-container">
-                <h1>Editar Datos Sangre Oculta</h1>
+    ?>
+                <h1>Editar Datos VPH</h1>
                 <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>">
-
                     <label for="estado">Estado:</label>
                     <select name="estado" id="estado">
                         <option value="Positivo" <?php if ($fila_vph['estado'] == 'Positivo') echo 'selected'; ?>>Positivo</option>
                         <option value="Negativo" <?php if ($fila_vph['estado'] == 'Negativo') echo 'selected'; ?>>Negativo</option>
-                    </select>
-
+                    </select><br>
                     <label for="fecha">Fecha:</label>
-                    <input type="date" name="fecha" id="fecha" value="<?php echo $fila_vph['fecha']; ?>" required>
-
+                    <input type="date" name="fecha" id="fecha" value="<?php echo $fila_vph['fecha']; ?>" required><br>
                     <label for="observacion">Observación:</label>
-                    <textarea name="observacion" id="observacion" placeholder="Ingrese sus observaciones aquí..." required><?php echo $fila_vph['observacion']; ?></textarea>
-
+                    <textarea name="observacion" id="observacion" required><?php echo $fila_vph['observacion']; ?></textarea><br>
                     <button type="submit">Guardar Cambios</button>
                 </form>
-               </div>
     <?php
             } else {
-                echo "No se encontraron datos de Sangre Oculta para el paciente con ID $id_paciente.";
+                echo "No se encontraron datos de VPH para el paciente con ID $id_paciente.";
             }
 
             $conex->close();
@@ -82,5 +78,6 @@
             echo "No se ha especificado un ID de paciente.";
         }
     ?>
+    </center>
 </body>
 </html>

@@ -206,10 +206,10 @@
                 echo "</div>";
                 
                 echo "<div class='actions-container'>";
-                echo "<button><a href='editar_paciente.php?id=" . $id_paciente . "' class='editar'>Editar</a></button>";
+                echo "<button><a href='editar/editar_paciente.php?id=" . $id_paciente . "' class='editar'>Editar</a></button>";
                 
                 if ($id_cargo == 1 || $id_cargo == 2) {
-                    echo "<button class='eliminar1'><a href='eliminar_pacientes.php?id=" . $id_paciente . "' onclick='return confirm(\"¿Estás seguro de que deseas eliminar este paciente?\")' class='eliminar'>Eliminar</a></button>";
+                    echo "<button class='eliminar1'><a href='eliminar/eliminar_pacientes.php?id=" . $id_paciente . "' onclick='return confirm(\"¿Estás seguro de que deseas eliminar este paciente?\")' class='eliminar'>Eliminar</a></button>";
                 }
                 echo "</div>";
                 
@@ -276,7 +276,7 @@
                 }
             }
         ?>
-        <button><a href='cargar_presion.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+        <button><a href='cargar/cargar_presion.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
     </div>
 
     <div class="glucemia">
@@ -331,7 +331,7 @@
                 }
             }
         ?>
-        <button><a href='cargar_glu.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+        <button><a href='cargar/cargar_glu.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
     </div>
 
     <div class="studies-container">
@@ -365,12 +365,12 @@
                     $registrosSangreOcultaExisten = $row['count'] > 0;
 
                     if ($registrosSangreOcultaExisten) {
-                        echo '<button style="display: none;"><a href="cargar_sangreoculta.php?id=' . $id_paciente . '">Cargar</a></button>';
+                        echo '<button style="display: none;"><a href="cargar/cargar_sangreoculta.php?id=' . $id_paciente . '">Cargar</a></button>';
                     } else {
-                        echo '<button><a href="cargar_sangreoculta.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
+                        echo '<button><a href="cargar/cargar_sangreoculta.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
                     }
                 ?>
-                <button><a href='editar_sangreoculta.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
+                <button><a href='editar/editar_sangreoculta.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
             </div>
         </div>
 
@@ -404,12 +404,12 @@
                     $registrosSifilisExisten = $rowSifilis['count'] > 0;
 
                     if ($registrosSifilisExisten) {
-                        echo '<button style="display: none;"><a href="cargar_sifilis.php?id=' . $id_paciente . '">Cargar</a></button>';
+                        echo '<button style="display: none;"><a href="cargar/cargar_sifilis.php?id=' . $id_paciente . '">Cargar</a></button>';
                     } else {
-                        echo '<button><a href="cargar_sifilis.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
+                        echo '<button><a href="cargar/cargar_sifilis.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
                     }
                 ?>
-                <button><a href='editar_sifilis.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
+                <button><a href='editar/editar_sifilis.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
             </div>
         </div>
 
@@ -443,12 +443,12 @@
                     $registrosvihExisten = $rowvih['count'] > 0;
 
                     if ($registrosvihExisten) {
-                        echo '<button style="display: none;"><a href="cargar_vih.php?id=' . $id_paciente . '">Cargar</a></button>';
+                        echo '<button style="display: none;"><a href="cargar/cargar_vih.php?id=' . $id_paciente . '">Cargar</a></button>';
                     } else {
-                        echo '<button><a href="cargar_vih.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
+                        echo '<button><a href="cargar/cargar_vih.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
                     }
                 ?>
-                <button><a href='editar_vih.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
+                <button><a href='editar/editar_vih.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
             </div>
         </div>
 
@@ -482,12 +482,12 @@
                     $registrosvphExisten = $rowvph['count'] > 0;
 
                     if ($registrosvphExisten) {
-                        echo '<button style="display: none;"><a href="cargar_vph.php?id=' . $id_paciente . '">Cargar</a></button>';
+                        echo '<button style="display: none;"><a href="cargar/cargar_vph.php?id=' . $id_paciente . '">Cargar</a></button>';
                     } else {
-                        echo '<button><a href="cargar_vph.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
+                        echo '<button><a href="cargar/cargar_vph.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
                     }
                 ?>
-                <button><a href='editar_vph.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
+                <button><a href='editar/editar_vph.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
             </div>
         </div>
 
@@ -515,12 +515,12 @@
                         $registrosmamExisten = $rowmam['count'] > 0;
 
                         if ($registrosmamExisten) {
-                            echo '<button style="display: none;"><a href="cargar_mam.php?id=' . $id_paciente . '">Cargar</a></button>';
+                            echo '<button style="display: none;"><a href="cargar/cargar_mam.php?id=' . $id_paciente . '">Cargar</a></button>';
                         } else {
-                            echo '<button><a href="cargar_mam.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
+                            echo '<button><a href="cargar/cargar_mam.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
                         }
                     ?>
-                    <button><a href='editar_mam.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
+                    <button><a href='editar/editar_mam.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
                 </div>
             </div>
         <?php } ?>

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Datos Mamografia</title>
-    <link rel="icon" href="../img/icono.png"> 
-    <link rel="stylesheet" href="../css/cargar_mam1.css">
+    <link rel="icon" href="../../img/icono.png"> 
+    <link rel="stylesheet" href="../../css/cargar_mam1.css">
 </head>
 <body>
     <?php
@@ -20,11 +20,11 @@
     $id_cargo = $_SESSION['id_cargo'];
 
     if ($id_cargo == 1) {
-        include("../layouts/nav_admin.html"); 
+        include("../../layouts/nav_admin.html"); 
     } elseif ($id_cargo == 2) {
-        include("../layouts/nav_promotor.html"); 
+        include("../../layouts/nav_promotor.html"); 
     }
-            include ("../db/conexion.php");
+            include ("../../db/conexion.php");
 
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
@@ -36,7 +36,7 @@
                 $query = "INSERT INTO mamografia (id_paciente, turno, observacion) VALUES ('$id_paciente', '$turno', '$observacion')";
                 
                 if ($conex->query($query)) {
-                    header("Location: ficha_paciente.php?id_paciente=$id_paciente");
+                    header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
                     exit();
                 } else {
                     echo "Error al cargar los datos de Mamografia: " . $conex->error;
