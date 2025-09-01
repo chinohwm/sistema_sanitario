@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
     exit();
 }
 
-include("../db/conexion.php");
+include("../../db/conexion.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_usuario'])) {
     $id_usuario = $_POST['id_usuario'];
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_usuario'])) {
     $stmt->bind_param("ssssii", $nombre, $apellido, $usuario, $password, $id_cargo, $id_usuario);
 
     if ($stmt->execute()) {
-        header("Location: promotores.php");
+        header("Location: ../promotores.php");
     } else {
         echo "Error al actualizar datos: " . $stmt->error;
     }
