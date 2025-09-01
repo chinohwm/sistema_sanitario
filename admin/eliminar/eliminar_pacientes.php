@@ -1,5 +1,5 @@
 <?php
-include("../db/conexion.php");
+include("../../db/conexion.php");
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -34,7 +34,7 @@ if (isset($_GET['id'])) {
 
     if ($resultadoPacientes && $resultadoGlucemia && $resultadoMamografia && $resultadoSangreOculta && $resultadoVIH && $resultadoSifilis && $resultadoPresion) {
         // Redirige de nuevo a la página 'index.php' si todas las eliminaciones se realizaron con éxito
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit();
     } else {
         echo "Error al eliminar los registros relacionados: " . $conex->error;
