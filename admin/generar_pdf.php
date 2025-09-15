@@ -1,5 +1,5 @@
 <?php
-require('../fpdf/fpdf.php');
+require('../img/fpdf/fpdf.php');
 
 // Conexión a base de datos
 $mysqli = new mysqli("localhost", "root", "", "secretaria_salud");

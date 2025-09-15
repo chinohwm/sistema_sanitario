@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Presion || Secretaria De Salud</title>
-    <link rel="stylesheet" href="../css/glupre.css">
-    <link rel="icon" href="../img/icono.png">
+    <link rel="stylesheet" href="../../css/glupre.css">
+    <link rel="icon" href="../../img/icono.png">
 </head>
 <body>
 <?php
@@ -19,11 +19,11 @@
         $id_cargo = $_SESSION['id_cargo'];
    
         if ($id_cargo == 1) {
-            include("../layouts/nav_admin.html"); 
+            include("../../layouts/nav_admin.html"); 
         } elseif ($id_cargo == 2) {
-            include("../layouts/nav_promotor.html"); 
+            include("../../layouts/nav_promotor.html"); 
         }
-        include ("../db/conexion.php");
+        include ("../../db/conexion.php");
 
 // Verifica si se ha proporcionado el ID del paciente en la URL
 if (isset($_GET['id'])) {
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO presion (id_paciente, sede, localidad, estado, derivacion, observacion, fecha) VALUES ('$id_paciente', '$sede', '$localidad', '$estado', '$derivacion', '$observacion', '$fecha')";
 
     if ($conex->query($sql) === TRUE) {
-        header("Location: ficha_paciente.php?id_paciente=$id_paciente");
+        header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
         exit();
     } else {
         echo "Error en el registro: " . $conex->error;
