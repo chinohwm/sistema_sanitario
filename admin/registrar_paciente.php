@@ -50,8 +50,28 @@
         <input type="date" name="fecha_nacimiento" required><br>
         <label>Correo Electronico</label><br>
         <input type="text" name="correo_electronico" placeholder="Correo Eléctronico" required><br>
-        <label>Localidad</label><br>
-        <input type="text" name="localidad" placeholder="Localidad" required><br>
+        <label>Localidad donde fue atendido</label><br>
+        <select name="localidad_op" required>
+            <option value="">Seleccione una localidad</option>
+            <?php
+                $sql_localidades = "SELECT nombre FROM localidades_la_matanza ORDER BY nombre ASC";
+                $result_localidades = mysqli_query($conex, $sql_localidades);
+                while ($row = mysqli_fetch_assoc($result_localidades)) {
+                echo "<option value='".$row['nombre']."'>".$row['nombre']."</option>";
+                }   
+            ?>
+        </select><br>
+
+        <label>Localidad donde vive</label><br>
+        <select name="localidad" required>
+            <option value="">Seleccione una localidad</option>
+                <?php
+                    mysqli_data_seek($result_localidades, 0); // Reiniciar puntero para reutilizar el mismo resultado
+                    while ($row = mysqli_fetch_assoc($result_localidades)) {
+                    echo "<option value='".$row['nombre']."'>".$row['nombre']."</option>";
+                    }
+                ?>
+            </select><br>
         <label>Domicilio</label><br>
         <input type="text" name="domicilio" placeholder="Domicilio" required><br>
         <label>Obra Social</label><br>
@@ -62,24 +82,7 @@
         </select><br>
         <label>Peso</label><br>
         <input type="number" name="peso" placeholder="Peso" required><br>
-        <label>Talla</label><br>
-        <input type="number" name="talla" placeholder="Talla" required><br>
-        <label>Promotor</label><br>
-        <select name="promotor">
-        <option value="">Selecciona el promotor o Administrador</option>
-        <?php
-            // Trae nombre y nombre del cargo del usuario
-            $consulta = "SELECT u.nombre, c.cargo FROM usuario u 
-                        INNER JOIN cargo c ON u.id_cargo = c.id_cargo";
-            $resultado = mysqli_query($conex, $consulta);
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $nombrePromotor = $fila['nombre'];
-                $cargo = $fila['cargo'];
-
-                // Muestra nombre con el cargo entre paréntesis
-                echo "<option value='$nombrePromotor'>$nombrePromotor ($cargo)</option>";
-            }
-        ?>
+      
         </select>
         <br><br>
         <input type="submit" value="CARGAR">
@@ -96,18 +99,21 @@
         $genero = $_POST['genero'];
         $fecha_nacimiento = $_POST['fecha_nacimiento'];
         $correo_electronico = $_POST['correo_electronico'];
+        $localidad_op = $_POST['localidad_op'];
         $localidad = $_POST['localidad'];
         $domicilio = $_POST['domicilio'];
         $obra_social = $_POST['obra_social'];
-        $peso = $_POST['peso'];
-        $talla = $_POST['talla'];
-        $promotor = $_POST['promotor'];
+       
 
         
-        $sql = "INSERT INTO pacientes (nombre, apellido, dni, celular, genero, fecha_nacimiento, correo_electronico, 
-        localidad, domicilio, obra_social, peso, talla, promotor) VALUES 
-        ('$nombre', '$apellido', $dni, $celular, '$genero', '$fecha_nacimiento', '$correo_electronico', 
-        '$localidad', '$domicilio', '$obra_social', '$peso', '$talla', '$promotor')";
+        $sql = "INSERT INTO pacientes (
+    nombre, apellido, dni, celular, genero, fecha_nacimiento, correo_electronico, localidad_op,
+    localidad, domicilio, obra_social, peso
+) VALUES (
+    '$nombre', '$apellido', $dni, $celular, '$genero', '$fecha_nacimiento', '$correo_electronico', '$localidad_op',
+    '$localidad', '$domicilio', '$obra_social', $peso
+)";
+
 
         if (mysqli_query($conex, $sql)) {
             header ("location: index.php");
