@@ -40,8 +40,8 @@
         if(isset($_GET['id_paciente'])){
             $id_paciente = $_GET['id_paciente'];
 
-            $datos_personales = "SELECT nombre, apellido, genero, fecha_nacimiento, dni, correo_electronico,
-            localidad, domicilio, obra_social, peso, talla, promotor 
+            $datos_personales = "SELECT nombre, apellido, genero, fecha_nacimiento, dni, correo_electronico,localidad_op,
+            localidad, domicilio, obra_social
             FROM pacientes WHERE id_paciente = $id_paciente";
 
             $num_glucemia = "SELECT * FROM glucemia";
@@ -136,9 +136,7 @@
                     $localidad = $datospersonales['localidad'];
                     $domicilio = $datospersonales['domicilio'];
                     $obra_social = $datospersonales['obra_social'];
-                    $peso = $datospersonales['peso'];
-                    $talla = $datospersonales['talla'];
-                    $promotor = $datospersonales['promotor'];
+               
                 }
 
         }
@@ -190,20 +188,7 @@
                 echo "<p>" . $obra_social . "</p>";
                 echo "</div>";
                 
-                echo "<div class='info-card'>";
-                echo "<h4>Peso</h4>";
-                echo "<p>" . $peso . "</p>";
-                echo "</div>";
-                
-                echo "<div class='info-card'>";
-                echo "<h4>Talla</h4>";
-                echo "<p>" . $talla . "</p>";
-                echo "</div>";
-                
-                echo "<div class='info-card'>";
-                echo "<h4>Promotor</h4>";
-                echo "<p>" . $promotor . "</p>";
-                echo "</div>";
+              
                 
                 echo "<div class='actions-container'>";
                 echo "<button><a href='editar/editar_paciente.php?id=" . $id_paciente . "' class='editar'>Editar</a></button>";

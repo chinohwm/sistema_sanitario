@@ -76,9 +76,7 @@ $campos = [
     "Localidad" => $paciente['localidad'],
     "Domicilio" => $paciente['domicilio'],
     "Obra Social" => $paciente['obra_social'],
-    "Peso (kg)" => $paciente['peso'],
-    "Talla (cm)" => $paciente['talla'],
-    "Promotor" => $paciente['promotor']
+  
 ];
 
 foreach ($campos as $k => $v) {
