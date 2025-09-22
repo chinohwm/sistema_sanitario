@@ -40,17 +40,31 @@
         if(isset($_GET['id_paciente'])){
             $id_paciente = $_GET['id_paciente'];
 
-            $datos_personales = "SELECT nombre, apellido, genero, fecha_nacimiento, dni, correo_electronico,localidad_op,
-            localidad, domicilio, obra_social
-            FROM pacientes WHERE id_paciente = $id_paciente";
+           $datos_personales = "
+SELECT p.nombre, p.apellido, p.genero, p.fecha_nacimiento, p.dni, p.correo_electronico,
+       p.domicilio, p.obra_social, 
+       l.nombre AS nombre_localidad
+FROM pacientes p
+LEFT JOIN localidades_la_matanza l ON p.localidad = l.id
+WHERE p.id_paciente = $id_paciente";
 
-            $num_glucemia = "SELECT * FROM glucemia";
-            $datos_glucemia = "SELECT sede, localidad, estado, derivacion, observacion, fecha 
-            FROM glucemia WHERE id_paciente = $id_paciente LIMIT $cantidadregistros OFFSET " . ($cantidadregistros*$numpagina);
 
-            $num_presion = "SELECT * FROM presion";
-            $datos_presion = "SELECT sede, localidad, estado, derivacion, observacion, fecha 
-            FROM presion WHERE id_paciente = $id_paciente LIMIT $cantidadregistros_presion OFFSET " . ($cantidadregistros_presion*$numpagina_presion);
+
+           $datos_glucemia = "
+SELECT g.sede, l.nombre AS localidad, g.estado, g.derivacion, g.observacion, g.fecha
+FROM glucemia g
+LEFT JOIN localidades_la_matanza l ON g.localidad = l.id
+WHERE g.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros*$numpagina);
+$num_glucemia = "SELECT * FROM glucemia WHERE id_paciente = $id_paciente";
+
+$datos_presion = "
+SELECT pr.sede, l.nombre AS localidad, pr.estado, pr.derivacion, pr.observacion, pr.fecha
+FROM presion pr
+LEFT JOIN localidades_la_matanza l ON pr.localidad = l.id
+WHERE pr.id_paciente = $id_paciente
+LIMIT $cantidadregistros_presion OFFSET " . ($cantidadregistros_presion*$numpagina_presion);
+$num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
 
             $datos_sangreoculta = "SELECT estado, fecha, observacion FROM sangre_oculta 
             WHERE id_paciente = $id_paciente";
@@ -133,7 +147,7 @@
                     $fecha_nacimiento = $datospersonales['fecha_nacimiento'];
                     $dni = $datospersonales['dni'];
                     $correo_electronico = $datospersonales['correo_electronico'];
-                    $localidad = $datospersonales['localidad'];
+                    $localidad = $datospersonales['nombre_localidad'];
                     $domicilio = $datospersonales['domicilio'];
                     $obra_social = $datospersonales['obra_social'];
                
