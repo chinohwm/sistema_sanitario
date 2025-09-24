@@ -11,6 +11,7 @@
 <?php
 session_start();
 
+// Verificar sesión
 if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
     header("Location: ../login.php");
     exit();
@@ -18,6 +19,7 @@ if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
 
 $id_cargo = $_SESSION['id_cargo'];
 
+// Incluir menú según cargo
 if ($id_cargo == 1) {
     include("../../layouts/nav_admin.html"); 
 } elseif ($id_cargo == 2) {
@@ -26,6 +28,7 @@ if ($id_cargo == 1) {
 
 include ("../../db/conexion.php");
 
+// Obtener ID del paciente
 if (isset($_GET['id'])) {
     $id_paciente = $_GET['id']; 
 } else {
@@ -33,6 +36,7 @@ if (isset($_GET['id'])) {
     exit; 
 }
 
+// Procesar formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha = $_POST['fecha'];
     $sede = $_POST['sede'];
@@ -40,9 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $estado = $_POST['estado'];
     $derivacion = $_POST['derivacion'];
     $observacion = $_POST['observacion'];
+    $riesgo = $_POST['riesgo'];
 
-    $sql = "INSERT INTO glucemia (id_paciente, sede, localidad, estado, derivacion, observacion, fecha) 
-            VALUES ('$id_paciente', '$sede', '$localidad', '$estado', '$derivacion', '$observacion', '$fecha')";
+    $sql = "INSERT INTO glucemia (id_paciente, sede, localidad, estado, derivacion, observacion, id_riesgo, fecha) 
+            VALUES ('$id_paciente', '$sede', '$localidad', '$estado', '$derivacion', '$observacion', '$riesgo', '$fecha')";
 
     if ($conex->query($sql) === TRUE) {
         header("Location: ../ficha_paciente.php?id_paciente=$id_paciente"); 
@@ -66,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <select name='localidad' id='localidad' required>
             <option value=''>Seleccionar</option>
             <?php
-            // Consulta para traer todas las localidades
             $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
             $result_localidades = $conex->query($sql_localidades);
 
@@ -90,7 +94,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <label for='observacion'>Observación:</label>
         <textarea name='observacion' id='observacion' required></textarea><br>
-        
+
+        <label for='riesgo'>Riesgo:</label>
+        <select name='riesgo' id='riesgo' required>
+            <option value=''>Seleccionar</option>
+            <?php
+            $riesgo_sql = "SELECT id_riesgo, grado_riesgo FROM riesgo";
+            $dato_riesgo = $conex->query($riesgo_sql);
+
+            if ($dato_riesgo->num_rows > 0) {
+                while ($grado_riesgo = $dato_riesgo->fetch_assoc()) {
+                    echo "<option value='" . $grado_riesgo['id_riesgo'] . "'>" . $grado_riesgo['grado_riesgo'] . "</option>";
+                }
+            }
+            ?>
+        </select><br>
+
         <label for='fecha'>Fecha:</label>
         <input type='date' name='fecha' id='fecha' required><br>
         

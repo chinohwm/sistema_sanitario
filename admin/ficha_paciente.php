@@ -81,6 +81,19 @@ $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
             $datos_mamografia = "SELECT observacion, turno FROM mamografia 
             WHERE id_paciente = $id_paciente";
 
+           $riesgo = "SELECT grado_riesgo FROM riesgo";
+$resultadoriesgo = $conex->query($riesgo);
+
+// si querés contar filas
+$cantidadriesgo = $resultadoriesgo->num_rows;
+
+// si querés obtener el valor
+if ($datoriesgo = $resultadoriesgo->fetch_assoc()) {
+    $grado_riesgo = $datoriesgo['grado_riesgo'];
+}
+
+
+
                 $resultadopersonales = $conex->query($datos_personales);
                 $resultadoglucemia = $conex->query($datos_glucemia);
                 $resultadopresion = $conex->query($datos_presion);
@@ -93,6 +106,9 @@ $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
                 $cantidadresultadoglucemia = $resultadonumglucemia->num_rows;
                 $resultadonumpresion = $conex->query($num_presion);
                 $cantidadresultadopresion = $resultadonumpresion->num_rows;
+                
+
+
 
                 $genero = null;
                 $estadosangreoculta = "No hay datos cargados.";
@@ -237,6 +253,7 @@ $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
                     echo "<th>Derivación</th>";
                     echo "<th>Observación</th>";
                     echo "<th>Fecha</th>";
+              
                     echo "</tr>";
 
                     do {
@@ -247,6 +264,7 @@ $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
                         echo "<td>" . $datospresion['derivacion'] . "</td>";
                         echo "<td>" . $datospresion['observacion'] . "</td>";
                         echo "<td>" . $datospresion['fecha'] . "</td>";
+                        
                         echo "</tr>";
                     } while ($datospresion = $resultadopresion->fetch_assoc());
 

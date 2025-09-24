@@ -31,8 +31,9 @@ $cantidadregistros = 10;
 $numpagina = isset($_GET['pagina']) ? max(0, (int)$_GET['pagina']) : 0;
 
 // Filtros
-$filtroBusqueda = isset($_GET['filtroBusqueda']) ? trim($_GET['filtroBusqueda']) : '';
-$filtroLocalidad = isset($_GET['filtroLocalidad']) ? (int)$_GET['filtroLocalidad'] : 0;
+$filtroBusqueda   = isset($_GET['filtroBusqueda']) ? trim($_GET['filtroBusqueda']) : '';
+$filtroLocalidad  = isset($_GET['filtroLocalidad']) ? (int)$_GET['filtroLocalidad'] : 0;
+$filtroFecha      = isset($_GET['filtroFecha']) ? $_GET['filtroFecha'] : ''; // ✅ agregado
 
 $whereConditions = [];
 $params = [];
@@ -54,6 +55,14 @@ if ($filtroLocalidad > 0) {
     $types .= 'i';
 }
 
+// Filtro por fecha
+if (!empty($filtroFecha)) {
+    $whereConditions[] = "DATE(p.fecha_registro) = ?";
+    $params[] = $filtroFecha;
+    $types .= 's';
+}
+
+// 🚀 Armamos el WHERE con AND (esto asegura que si ambos están, se usen los dos)
 $whereClause = !empty($whereConditions) ? " WHERE " . implode(" AND ", $whereConditions) : "";
 
 // Obtener lista de localidades
@@ -85,6 +94,10 @@ if ($resLoc && $resLoc->num_rows > 0) {
                         </option>
                     <?php endforeach; ?>
                 </select>
+
+                <!-- Nuevo campo de fecha -->
+                <input type="date" name="filtroFecha" id="filtroFecha"
+                       value="<?php echo htmlspecialchars($filtroFecha); ?>">
 
                 <button type="submit" class="btn btn-search">Buscar</button>
                 <a href="index.php" class="btn btn-clear">Limpiar</a>
@@ -193,6 +206,7 @@ if ($resLoc && $resLoc->num_rows > 0) {
             $urlParams = [];
             if (!empty($filtroBusqueda)) $urlParams[] = "filtroBusqueda=" . urlencode($filtroBusqueda);
             if ($filtroLocalidad > 0) $urlParams[] = "filtroLocalidad=" . $filtroLocalidad;
+            if (!empty($filtroFecha)) $urlParams[] = "filtroFecha=" . urlencode($filtroFecha); // ✅ agregado
             $urlQuery = !empty($urlParams) ? "&" . implode("&", $urlParams) : "";
 
             if ($numpagina > 0) {
