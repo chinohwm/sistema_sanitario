@@ -66,32 +66,73 @@ WHERE pr.id_paciente = $id_paciente
 LIMIT $cantidadregistros_presion OFFSET " . ($cantidadregistros_presion*$numpagina_presion);
 $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
 
-            $datos_sangreoculta = "SELECT estado, fecha, observacion FROM sangre_oculta 
-            WHERE id_paciente = $id_paciente";
+           $datos_sangreoculta = "
+SELECT s.sede,
+       l.nombre AS localidad,
+       s.estado,
+       s.observacion,
+       s.fecha
+       s.derivacion,
+FROM sangre_oculta s
+LEFT JOIN localidades_la_matanza l ON s.localidad = l.id
+WHERE s.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros*$numpagina);
 
-            $datos_sifilis = "SELECT sifilis, observacion, derivacion FROM sifilis 
-            WHERE id_paciente = $id_paciente";
+// SÍFILIS
+$datos_sifilis = "
+SELECT s.sede,
+       l.nombre AS localidad,
+       s.estado,
+       s.derivacion,
+       s.observacion,
+       s.fecha
+FROM sifilis s
+LEFT JOIN localidades_la_matanza l ON s.localidad = l.id
+WHERE s.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros * $numpagina_sifilis);
+$resultadosifilis = $conex->query($datos_sifilis);
 
-            $datos_vih = "SELECT vih, observacion, derivacion FROM vih 
-            WHERE id_paciente = $id_paciente";
+// VIH
+$datos_vih = "
+SELECT v.sede,
+       l.nombre AS localidad,
+       v.estado,
+       v.derivacion,
+       v.observacion,
+       v.fecha
+FROM vih v
+LEFT JOIN localidades_la_matanza l ON v.localidad = l.id
+WHERE v.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros * $numpagina_vih);
+$resultadovih = $conex->query($datos_vih);
 
-            $datos_vph = "SELECT estado, fecha, observacion FROM vph 
-            WHERE id_paciente = $id_paciente";
+// VPH
+$datos_vph = "
+SELECT v.sede,
+       l.nombre AS localidad,
+       v.estado,
+       v.derivacion,
+       v.observacion,
+       v.fecha
+FROM vph v
+LEFT JOIN localidades_la_matanza l ON v.localidad = l.id
+WHERE v.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros * $numpagina_vph);
+$resultadovph = $conex->query($datos_vph);
 
-            $datos_mamografia = "SELECT observacion, turno FROM mamografia 
-            WHERE id_paciente = $id_paciente";
-
-           $riesgo = "SELECT grado_riesgo FROM riesgo";
-$resultadoriesgo = $conex->query($riesgo);
-
-// si querés contar filas
-$cantidadriesgo = $resultadoriesgo->num_rows;
-
-// si querés obtener el valor
-if ($datoriesgo = $resultadoriesgo->fetch_assoc()) {
-    $grado_riesgo = $datoriesgo['grado_riesgo'];
-}
-
+// MAMOGRAFIA
+$datos_mamografia = "
+SELECT m.sede,
+       l.nombre AS localidad,
+       m.estado,
+       m.derivacion,
+       m.observacion,
+       m.fecha
+FROM mamografia m
+LEFT JOIN localidades_la_matanza l ON m.localidad = l.id
+WHERE m.id_paciente = $id_paciente
+LIMIT $cantidadregistros OFFSET " . ($cantidadregistros * $numpagina_mamografia);
+$resultadomamografia = $conex->query($datos_mamografia);
 
 
                 $resultadopersonales = $conex->query($datos_personales);
@@ -350,197 +391,161 @@ if ($datoriesgo = $resultadoriesgo->fetch_assoc()) {
         ?>
         <button><a href='cargar/cargar_glu.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
     </div>
+<!-- SANGRE OCULTA -->
+<div class="glucemia">
+    <h3>Sangre Oculta</h3>
+    <?php 
+        if (isset($nombre)) {
+            if ($datossangreoculta = $resultadosangreoculta->fetch_assoc()) {
+                echo "<table border=1>";
+                echo "<tr>";
+                echo "<th>Sede</th>";
+                echo "<th>Localidad</th>";
+                echo "<th>Estado</th>";
+                echo "<th>Derivación</th>";
+                echo "<th>Observación</th>";
+                echo "<th>Fecha</th>";
+                echo "</tr>";
 
-    <div class="studies-container">
-        <div class="sangreoculta">
-            <h3>Sangre Oculta</h3>
-            <div class="study-content">
-                <?php 
-                    if (isset($nombre)) {
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Estado:</span>";
-                        echo "<span class='data-value'>" . $estadosangreoculta . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Fecha:</span>";
-                        echo "<span class='data-value'>" . $fechasangreoculta . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Observación:</span>";
-                        echo "<span class='data-value'>" . $observacionsangreoculta . "</span>";
-                        echo "</div>";
-                    }
-                ?>
-            </div>
-            <div class="button-container">
-                <?php
-                    $sql = "SELECT COUNT(*) AS count FROM sangre_oculta WHERE id_paciente = $id_paciente";
-                    $result = $conex->query($sql);
-                    $row = $result->fetch_assoc();
-                    $registrosSangreOcultaExisten = $row['count'] > 0;
+                do {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($datossangreoculta['sede']) . "</td>";
+                    echo "<td>" . htmlspecialchars($datossangreoculta['localidad']) . "</td>";
+                    echo "<td>" . htmlspecialchars($datossangreoculta['estado']) . "</td>";
+                    echo "<td>" . (($datossangreoculta['derivacion'] == '1' || $datossangreoculta['derivacion'] === 1) ? 'Sí' : 'No') . "</td>";
+                    echo "<td>" . htmlspecialchars($datossangreoculta['observacion']) . "</td>";
+                    echo "<td>" . htmlspecialchars($datossangreoculta['fecha']) . "</td>";
+                    echo "</tr>";
+                } while ($datossangreoculta = $resultadosangreoculta->fetch_assoc());
 
-                    if ($registrosSangreOcultaExisten) {
-                        echo '<button style="display: none;"><a href="cargar/cargar_sangreoculta.php?id=' . $id_paciente . '">Cargar</a></button>';
-                    } else {
-                        echo '<button><a href="cargar/cargar_sangreoculta.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
-                    }
-                ?>
-                <button><a href='editar/editar_sangreoculta.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
-            </div>
-        </div>
+                echo "</table>";
+            } else {
+                echo "No hay datos de Sangre Oculta para este paciente.";
+            }
+        }
+    ?>
+    <button><a href='cargar/cargar_sangreoculta.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+</div>
 
-        <div class="sifilis">
-            <h3>Sifilis</h3>
-            <div class="study-content">
-                <?php
-                    if (isset($nombre)) {
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Sifilis:</span>";
-                        echo "<span class='data-value'>" . $sifilis . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Observación:</span>";
-                        echo "<span class='data-value'>" . $observacionsifilis . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Derivación:</span>";
-                        echo "<span class='data-value'>" . $derivacionsifilis . "</span>";
-                        echo "</div>";
-                    }
-                ?>
-            </div>
-            <div class="button-container">
-                <?php
-                    $sqlSifilis = "SELECT COUNT(*) AS count FROM sifilis WHERE id_paciente = $id_paciente";
-                    $resultSifilis = $conex->query($sqlSifilis);
-                    $rowSifilis = $resultSifilis->fetch_assoc();
-                    $registrosSifilisExisten = $rowSifilis['count'] > 0;
 
-                    if ($registrosSifilisExisten) {
-                        echo '<button style="display: none;"><a href="cargar/cargar_sifilis.php?id=' . $id_paciente . '">Cargar</a></button>';
-                    } else {
-                        echo '<button><a href="cargar/cargar_sifilis.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
-                    }
-                ?>
-                <button><a href='editar/editar_sifilis.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
-            </div>
-        </div>
+<!-- SIFILIS -->
+<div class="glucemia">
+    <h3>Sífilis</h3>
+    <?php 
+        if (isset($nombre)) {
+            if ($datossifilis = $resultadosifilis->fetch_assoc()) {
+                echo "<table border=1>";
+                echo "<tr>";
+                echo "<th>Sífilis</th>";
+                echo "<th>Observación</th>";
+                echo "<th>Derivación</th>";
+                echo "</tr>";
 
-        <div class="vih">
-            <h3>VIH</h3>
-            <div class="study-content">
-                <?php
-                    if (isset($nombre)) {
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>VIH:</span>";
-                        echo "<span class='data-value'>" . $vih . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Observación:</span>";
-                        echo "<span class='data-value'>" . $observacionvih . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Derivación:</span>";
-                        echo "<span class='data-value'>" . $derivacionvih . "</span>";
-                        echo "</div>";
-                    }
-                ?>
-            </div>
-            <div class="button-container">
-                <?php
-                    $sqlvih = "SELECT COUNT(*) AS count FROM vih WHERE id_paciente = $id_paciente";
-                    $resultvih = $conex->query($sqlvih);
-                    $rowvih = $resultvih->fetch_assoc();
-                    $registrosvihExisten = $rowvih['count'] > 0;
+                do {
+                    echo "<tr>";
+                    echo "<td>" . $datossifilis['sifilis'] . "</td>";
+                    echo "<td>" . $datossifilis['observacion'] . "</td>";
+                    echo "<td>" . $datossifilis['derivacion'] . "</td>";
+                    echo "</tr>";
+                } while ($datossifilis = $resultadosifilis->fetch_assoc());
 
-                    if ($registrosvihExisten) {
-                        echo '<button style="display: none;"><a href="cargar/cargar_vih.php?id=' . $id_paciente . '">Cargar</a></button>';
-                    } else {
-                        echo '<button><a href="cargar/cargar_vih.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
-                    }
-                ?>
-                <button><a href='editar/editar_vih.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
-            </div>
-        </div>
+                echo "</table>";
+            } else {
+                echo "No hay datos de Sífilis para este paciente.";
+            }
+        }
+    ?>
+    <button><a href='cargar/cargar_sifilis.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+</div>
 
-        <div class="vph">
-            <h3>VPH</h3>
-            <div class="study-content">
-                <?php
-                    if (isset($nombre)) {
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>VPH:</span>";
-                        echo "<span class='data-value'>" . $estadovph . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Fecha:</span>";
-                        echo "<span class='data-value'>" . $fechavph . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Observación:</span>";
-                        echo "<span class='data-value'>" . $observacionvph . "</span>";
-                        echo "</div>";
-                    }
-                ?>
-            </div>
-            <div class="button-container">
-                <?php
-                    $sqlvph = "SELECT COUNT(*) AS count FROM vph WHERE id_paciente = $id_paciente";
-                    $resultvph = $conex->query($sqlvph);
-                    $rowvph = $resultvph->fetch_assoc();
-                    $registrosvphExisten = $rowvph['count'] > 0;
+<!-- VIH -->
+<div class="glucemia">
+    <h3>VIH</h3>
+    <?php 
+        if (isset($nombre)) {
+            if ($datosvih = $resultadovih->fetch_assoc()) {
+                echo "<table border=1>";
+                echo "<tr>";
+                echo "<th>VIH</th>";
+                echo "<th>Observación</th>";
+                echo "<th>Derivación</th>";
+                echo "</tr>";
 
-                    if ($registrosvphExisten) {
-                        echo '<button style="display: none;"><a href="cargar/cargar_vph.php?id=' . $id_paciente . '">Cargar</a></button>';
-                    } else {
-                        echo '<button><a href="cargar/cargar_vph.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
-                    }
-                ?>
-                <button><a href='editar/editar_vph.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
-            </div>
-        </div>
+                do {
+                    echo "<tr>";
+                    echo "<td>" . $datosvih['vih'] . "</td>";
+                    echo "<td>" . $datosvih['observacion'] . "</td>";
+                    echo "<td>" . $datosvih['derivacion'] . "</td>";
+                    echo "</tr>";
+                } while ($datosvih = $resultadovih->fetch_assoc());
 
-        <?php if (isset($genero) && $genero === "Femenino"){?>
-            <div class="mamografia">
-                <h3>Mamografía</h3>
-                <div class="study-content">
-                    <?php
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Observación:</span>";
-                        echo "<span class='data-value'>" . $observacionmamografia . "</span>";
-                        echo "</div>";
-                        
-                        echo "<div class='data-item'>";
-                        echo "<span class='data-label'>Turno:</span>";
-                        echo "<span class='data-value'>" . $turnomamografia . "</span>";
-                        echo "</div>";
-                    ?>
-                </div>
-                <div class="button-container">
-                    <?php
-                        $sqlmam = "SELECT COUNT(*) AS count FROM mamografia WHERE id_paciente = $id_paciente";
-                        $resultmam = $conex->query($sqlmam);
-                        $rowmam = $resultmam->fetch_assoc();
-                        $registrosmamExisten = $rowmam['count'] > 0;
+                echo "</table>";
+            } else {
+                echo "No hay datos de VIH para este paciente.";
+            }
+        }
+    ?>
+    <button><a href='cargar/cargar_vih.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+</div>
 
-                        if ($registrosmamExisten) {
-                            echo '<button style="display: none;"><a href="cargar/cargar_mam.php?id=' . $id_paciente . '">Cargar</a></button>';
-                        } else {
-                            echo '<button><a href="cargar/cargar_mam.php?id=' . $id_paciente . '"class=cargar>Cargar</a></button>';
-                        }
-                    ?>
-                    <button><a href='editar/editar_mam.php?id=<?php echo $id_paciente; ?>' class='editar'>Editar</a></button>
-                </div>
-            </div>
-        <?php } ?>
+<!-- VPH -->
+<div class="glucemia">
+    <h3>VPH</h3>
+    <?php 
+        if (isset($nombre)) {
+            if ($datosvph = $resultadovph->fetch_assoc()) {
+                echo "<table border=1>";
+                echo "<tr>";
+                echo "<th>Estado</th>";
+                echo "<th>Fecha</th>";
+                echo "<th>Observación</th>";
+                echo "</tr>";
+
+                do {
+                    echo "<tr>";
+                    echo "<td>" . $datosvph['estado'] . "</td>";
+                    echo "<td>" . $datosvph['fecha'] . "</td>";
+                    echo "<td>" . $datosvph['observacion'] . "</td>";
+                    echo "</tr>";
+                } while ($datosvph = $resultadovph->fetch_assoc());
+
+                echo "</table>";
+            } else {
+                echo "No hay datos de VPH para este paciente.";
+            }
+        }
+    ?>
+    <button><a href='cargar/cargar_vph.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+</div>
+
+<!-- MAMOGRAFÍA (solo mujeres) -->
+<?php if (isset($genero) && $genero === "Femenino"){?>
+<div class="glucemia">
+    <h3>Mamografía</h3>
+    <?php 
+        if ($datosmamografia = $resultadomamografia->fetch_assoc()) {
+            echo "<table border=1>";
+            echo "<tr>";
+            echo "<th>Observación</th>";
+            echo "<th>Turno</th>";
+            echo "</tr>";
+
+            do {
+                echo "<tr>";
+                echo "<td>" . $datosmamografia['observacion'] . "</td>";
+                echo "<td>" . $datosmamografia['turno'] . "</td>";
+                echo "</tr>";
+            } while ($datosmamografia = $resultadomamografia->fetch_assoc());
+
+            echo "</table>";
+        } else {
+            echo "No hay datos de Mamografía para este paciente.";
+        }
+    ?>
+    <button><a href='cargar/cargar_mam.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+</div>
+<?php } ?>
+
     </div>
     </div>
     </div>

@@ -30,12 +30,19 @@
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
 
+            // Traer localidades
+        $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
+
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $vih = $_POST['sifilis'];
                 $derivacion = $_POST['derivacion'];
                 $observacion = $_POST['observacion'];
+                $localidad = $_POST['localidad'];
+                $sede = $_POST['sede'];
+    
 
-                $query = "INSERT INTO sifilis (id_paciente, sifilis, observacion, derivacion) VALUES ('$id_paciente', '$vih', '$observacion', '$derivacion')";
+                $query = "INSERT INTO sifilis (id_paciente, sifilis, observacion, derivacion, localiad,sede ) VALUES ('$id_paciente', '$vih', '$observacion', '$derivacion', '$sede', '$localidad')";
 
                 if ($conex->query($query)) {
                     header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
@@ -61,6 +68,17 @@
                     <option value='Si'>Si</option>
                     <option value='No'>No</option>
                 </select><br>
+
+                  <label for='localidad'>Localidad:</label>
+            <select name='localidad' id='localidad' required>
+                <option value=''>Seleccione una localidad</option>
+                <?php while($loc = $localidades->fetch_assoc()) { ?>
+                    <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
+                <?php } ?>
+            </select>
+
+            <label for='sede'>Sede:</label>
+            <input type='text' name='sede' id='sede' required>
                 <button type='submit'>Cargar Datos</button>
             </form>
     <?php

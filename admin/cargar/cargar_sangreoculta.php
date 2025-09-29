@@ -9,41 +9,50 @@
     <link rel="stylesheet" href="../../css/cargar_sangreoculta.css">
 </head>
 <body>
-    <?php
-            session_start();
+<?php
+    session_start();
 
-            if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
-                header("Location: ../login.php");
+    if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
+        header("Location: ../login.php");
+        exit();
+    }
+
+    $id_cargo = $_SESSION['id_cargo'];
+
+    if ($id_cargo == 1) {
+        include("../../layouts/nav_admin.html"); 
+    } elseif ($id_cargo == 2) {
+        include("../../layouts/nav_promotor.html"); 
+    }
+
+    include ("../../db/conexion.php");
+
+    if (isset($_GET['id'])) {
+        $id_paciente = $_GET['id'];
+
+        // Traer localidades
+        $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
+
+     
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $estado = $_POST['estado'];
+            $fecha = $_POST['fecha'];
+            $observacion = $_POST['observacion'];
+            $localidad = $_POST['localidad'];
+            $sede = $_POST['sede'];
+            $derivacion = $_POST['derivacion']
+
+            $query = "INSERT INTO sangre_oculta (id_paciente, estado, fecha, observacion, localidad, sede, derivacion ) 
+                      VALUES ('$id_paciente', '$estado', '$fecha', '$observacion', '$localidad', '$sede')";
+
+            if ($conex->query($query)) {
+                header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
                 exit();
+            } else {
+                echo "Error al cargar los datos de Sangre Oculta: " . $conex->error;
             }
-        
-            $id_cargo = $_SESSION['id_cargo'];
-       
-            if ($id_cargo == 1) {
-                include("../../layouts/nav_admin.html"); 
-            } elseif ($id_cargo == 2) {
-                include("../../layouts/nav_promotor.html"); 
-            }
-        include ("../../db/conexion.php");
-
-        if (isset($_GET['id'])) {
-            $id_paciente = $_GET['id'];
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $estado = $_POST['estado'];
-                $fecha = $_POST['fecha'];
-                $observacion = $_POST['observacion'];
-
-                $query = "INSERT INTO sangre_oculta (id_paciente, estado, fecha, observacion) VALUES ('$id_paciente', '$estado', '$fecha', '$observacion')";
-
-                if ($conex->query($query)) {
-                    header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
-                    exit();
-                } else {
-                    echo "Error al cargar los datos de Sangre Oculta: " . $conex->error;
-                }
-            }
-    ?>
+        }
+?>
     
     <div class="form-container">
         <h1>Cargar Datos Sangre Oculta</h1>
@@ -59,19 +68,39 @@
             
             <label for='fecha'>Fecha:</label>
             <input type='date' name='fecha' id='fecha' required>
+            <label for='derivacion'>Derivación:</label>
+            <select name='derivacion' id='derivacion' required>
+            <option value=''>Seleccione una opción</option>
+            <option value='1'>Sí</option>
+            <option value='0'>No</option>
+            </select>
+
             
             <label for='observacion'>Observación:</label>
             <textarea name='observacion' id='observacion' placeholder="Ingrese sus observaciones aquí..." required></textarea>
+
+            <label for='localidad'>Localidad:</label>
+            <select name='localidad' id='localidad' required>
+                <option value=''>Seleccione una localidad</option>
+                <?php while($loc = $localidades->fetch_assoc()) { ?>
+                    <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
+                <?php } ?>
+            </select>
+
+            <label for='sede'>Sede:</label>
+            <input type='text' name='sede' id='sede' required>
+
+            
             
             <button type='submit'>Cargar Datos</button>
         </form>
     </div>
     
-    <?php
-            $conex->close();
-        } else {
-            echo "<div class='error-message'>No se ha especificado un ID de paciente.</div>";
-        }
-    ?>
+<?php
+        $conex->close();
+    } else {
+        echo "<div class='error-message'>No se ha especificado un ID de paciente.</div>";
+    }
+?>
 </body>
 </html>
