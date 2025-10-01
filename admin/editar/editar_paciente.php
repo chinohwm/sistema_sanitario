@@ -43,9 +43,7 @@ if (isset($_GET['id'])) {
         $localidad = $row['localidad'];
         $domicilio = $row['domicilio'];
         $obra_social = $row['obra_social'];
-        $peso = $row['peso']; 
-        $talla = $row['talla'];
-        $promotor = $row['promotor'];
+        
     }
 }
 
@@ -61,14 +59,10 @@ if(isset($_POST['actualizar'])) {
     $localidad = $_POST['localidad'];
     $domicilio = $_POST['domicilio'];
     $obra_social = $_POST['obra_social'];
-    $peso = $_POST['peso'];
-    $talla = $_POST['talla'];
-    $promotor = $_POST['promotor'];
-
+   
     $consulta = "UPDATE pacientes SET nombre = '$nombre', apellido = '$apellido', dni = '$dni', genero = '$genero',
     celular = '$celular', fecha_nacimiento = '$fecha_nacimiento', correo_electronico = '$correo_electronico',
-    localidad = '$localidad', domicilio = '$domicilio', obra_social = '$obra_social', peso = '$peso',
-    talla = '$talla', promotor = '$promotor' WHERE id_paciente = $id";
+    localidad = '$localidad', domicilio = '$domicilio', obra_social = '$obra_social' WHERE id_paciente = $id";
 
     if ($conex->query($consulta) === TRUE) {
         header("Location: ../../admin/ficha_paciente.php?id_paciente=$id");
@@ -111,22 +105,7 @@ if(isset($_POST['actualizar'])) {
             <option value="Si" <?php if ($obra_social === 'Si') echo 'selected'; ?>>Si</option>
             <option value="No" <?php if ($obra_social === 'No') echo 'selected'; ?>>No</option>
         </select><br>
-        <label>Peso</label><br>
-        <input type="number" name="peso" placeholder="Peso" required value="<?php echo $peso; ?>"><br>
-        <label>Talla</label><br>
-        <input type="number" name="talla" placeholder="Talla" required value="<?php echo $talla; ?>"><br>
-        <label>Promotor</label><br>
-        <select name="promotor" required>
-            <option value="">Selecciona el promotor</option>
-        <?php
-        $consulta = "SELECT nombre FROM usuario";
-        $resultado = mysqli_query($conex, $consulta);
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            $nombrePromotor = $fila['nombre'];
-            $selected = ($nombrePromotor === $promotor) ? 'selected' : '';
-            echo "<option value='$nombrePromotor' $selected>$nombrePromotor</option>";
-        }
-        ?>
+       
         </select><br><br>
         <input type="submit" name="actualizar" value="ACTUALIZAR">
     </form>

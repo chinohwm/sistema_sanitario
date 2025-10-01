@@ -9,84 +9,93 @@
     <link rel="stylesheet" href="../../css/editar.css">
 </head>
 <body>
-    <center>
-    <?php
-            session_start();
+<center>
+<?php
+session_start();
 
-            if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
-                header("Location: ../login.php");
-                exit();
-            }
-        
-            $id_cargo = $_SESSION['id_cargo'];
-       
-            if ($id_cargo == 1) {
-                include("../../layouts/nav_admin.html"); 
-            } elseif ($id_cargo == 2) {
-                include("../../layouts/nav_promotor.html"); 
-            }
-        include ("../../db/conexion.php");
+if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
-        if (isset($_GET['id'])) {
-            $id_paciente = $_GET['id'];
+$id_cargo = $_SESSION['id_cargo'];
 
-            // Traer localidades
-        $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
+if ($id_cargo == 1) {
+    include("../../layouts/nav_admin.html"); 
+} elseif ($id_cargo == 2) {
+    include("../../layouts/nav_promotor.html"); 
+}
 
+include ("../../db/conexion.php");
 
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $vih = $_POST['sifilis'];
-                $derivacion = $_POST['derivacion'];
-                $observacion = $_POST['observacion'];
-                $localidad = $_POST['localidad'];
-                $sede = $_POST['sede'];
-    
+if (isset($_GET['id'])) {
+    $id_paciente = $_GET['id'];
 
-                $query = "INSERT INTO sifilis (id_paciente, sifilis, observacion, derivacion, localiad,sede ) VALUES ('$id_paciente', '$vih', '$observacion', '$derivacion', '$sede', '$localidad')";
+    // Traer localidades
+    $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
 
-                if ($conex->query($query)) {
-                    header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
-                    exit();
-                } else {
-                    echo "Error al cargar los datos de sifilis: " . $conex->error;
-                }
-            }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    ?>
-            <h1>Cargar Datos SIFILIS</h1>
-            <form method='POST' action='<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>'>
-                <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
-                <label for='estado'>SIFILIS:</label>
-                <select name='sifilis'>
-                    <option value='Positivo'>Positivo</option>
-                    <option value='Negativo'>Negativo</option>
-                </select><br>
-                <label for='observacion'>Observación:</label>
-                <textarea name='observacion' id='observacion'></textarea><br>
-                <label for='derivacion'>Derivación:</label>
-                <select name='derivacion'>
-                    <option value='Si'>Si</option>
-                    <option value='No'>No</option>
-                </select><br>
+      
+        $observacion = $_POST['observacion'];
+        $derivacion = $_POST['derivacion'];
+        $localidad = $_POST['localidad'];
+        $sede = $_POST['sede'];
+        $estado = (isset($_POST['estado']) && $_POST['estado'] === "1") ? 1 : 0;
+        $fecha = date("Y-m-d"); // Fecha actual de la PC
 
-                  <label for='localidad'>Localidad:</label>
-            <select name='localidad' id='localidad' required>
-                <option value=''>Seleccione una localidad</option>
-                <?php while($loc = $localidades->fetch_assoc()) { ?>
-                    <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
-                <?php } ?>
-            </select>
+        // Sentencia preparada
+        $stmt = $conex->prepare("INSERT INTO sifilis (id_paciente,  observacion, derivacion, localidad, sede, estado, fecha) VALUES (?,  ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("issssis", $id_paciente,  $observacion, $derivacion, $localidad, $sede, $estado, $fecha);
 
-            <label for='sede'>Sede:</label>
-            <input type='text' name='sede' id='sede' required>
-                <button type='submit'>Cargar Datos</button>
-            </form>
-    <?php
-            $conex->close();
+        if ($stmt->execute()) {
+            header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
+            exit();
         } else {
-            echo "No se ha especificado un ID de paciente.";
+            echo "Error al cargar los datos de SIFILIS: " . $stmt->error;
         }
-    ?>
-    </center>
+
+        $stmt->close();
+    }
+?>
+    <h1>Cargar Datos SIFILIS</h1>
+    <form method='POST' action='<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>'>
+        <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
+
+        <label for='estado'>SIFILIS:</label>
+        <select name='estado' required>
+            <option value='1'>Seguimiento</option>
+            <option value='0'>Caso cerrado</option>
+        </select><br>
+
+        <label for='observacion'>Observación:</label>
+        <textarea name='observacion' id='observacion'></textarea><br>
+
+        <label for='derivacion'>Derivación:</label>
+        <select name='derivacion' required>
+            <option value='Si'>Si</option>
+            <option value='No'>No</option>
+        </select><br>
+
+        <label for='localidad'>Localidad:</label>
+        <select name='localidad' id='localidad' required>
+            <option value=''>Seleccione una localidad</option>
+            <?php while($loc = $localidades->fetch_assoc()) { ?>
+                <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
+            <?php } ?>
+        </select><br>
+
+        <label for='sede'>Sede:</label>
+        <input type='text' name='sede' id='sede' required><br>
+
+        <button type='submit'>Cargar Datos</button>
+    </form>
+<?php
+    $conex->close();
+} else {
+    echo "No se ha especificado un ID de paciente.";
+}
+?>
+</center>
 </body>
 </html>

@@ -35,15 +35,17 @@
 
      
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $estado = $_POST['estado'];
+           
             $fecha = $_POST['fecha'];
             $observacion = $_POST['observacion'];
             $localidad = $_POST['localidad'];
             $sede = $_POST['sede'];
-            $derivacion = $_POST['derivacion']
+            $derivacion = $_POST['derivacion'];
+             // 🔥 Estado siempre será 0 o 1, si viene vacío lo ponemos en 0 (caso cerrado)
+            $estado = (isset($_POST['estado']) && $_POST['estado'] === "1") ? 1 : 0;
 
             $query = "INSERT INTO sangre_oculta (id_paciente, estado, fecha, observacion, localidad, sede, derivacion ) 
-                      VALUES ('$id_paciente', '$estado', '$fecha', '$observacion', '$localidad', '$sede')";
+                      VALUES ('$id_paciente', '$estado', '$fecha', '$observacion', '$localidad', '$sede','$derivacion')";
 
             if ($conex->query($query)) {
                 header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
@@ -60,10 +62,10 @@
             <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
             
             <label for='estado'>Estado:</label>
-            <select name='estado' id='estado' required>
+            <select name='estado'  required>
                 <option value=''>Seleccione un estado</option>
-                <option value='Positivo'>Positivo</option>
-                <option value='Negativo'>Negativo</option>
+                <option value='1'>Seguimiento</option>
+                <option value='0'>Caso cerrado</option>
             </select>
             
             <label for='fecha'>Fecha:</label>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,13 +41,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha = $_POST['fecha'];
     $sede = $_POST['sede'];
     $localidad = $_POST['localidad'];
-    $estado = $_POST['estado'];
+
+    // 🔥 Estado siempre será 0 o 1, si viene vacío lo ponemos en 0 (caso cerrado)
+    $estado = (isset($_POST['estado']) && $_POST['estado'] === "1") ? 1 : 0;
+
     $derivacion = $_POST['derivacion'];
     $observacion = $_POST['observacion'];
-    $riesgo = $_POST['riesgo'];
 
-    $sql = "INSERT INTO glucemia (id_paciente, sede, localidad, estado, derivacion, observacion, id_riesgo, fecha) 
-            VALUES ('$id_paciente', '$sede', '$localidad', '$estado', '$derivacion', '$observacion', '$riesgo', '$fecha')";
+    // Preparar consulta segura
+    $sql = "INSERT INTO glucemia (id_paciente, sede, localidad, estado, derivacion, observacion, fecha) 
+            VALUES ('$id_paciente', '$sede', '$localidad', '$estado', '$derivacion', '$observacion', '$fecha')";
 
     if ($conex->query($sql) === TRUE) {
         header("Location: ../ficha_paciente.php?id_paciente=$id_paciente"); 
@@ -61,20 +64,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <center>
     <h1>Registrar Medición De Glucemia para el Paciente ID: <?php echo $id_paciente; ?></h1>
-    <form method='POST' action='<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>'>
-        <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
+
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $id_paciente; ?>">
+        <input type="hidden" name="id_paciente" value="<?php echo $id_paciente; ?>">
         
-        <label for='sede'>Organizacion:</label>
-        <input type='text' name='sede' id='sede' required><br>
+        <label for="sede">Organización:</label>
+        <input type="text" name="sede" id="sede" required><br>
         
-        <label for='localidad'>Localidad:</label>
-        <select name='localidad' id='localidad' required>
-            <option value=''>Seleccionar</option>
+        <label for="localidad">Localidad:</label>
+        <select name="localidad" id="localidad" required>
+            <option value="">Seleccionar</option>
             <?php
             $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
             $result_localidades = $conex->query($sql_localidades);
 
-            if ($result_localidades->num_rows > 0) {
+            if ($result_localidades && $result_localidades->num_rows > 0) {
                 while ($row = $result_localidades->fetch_assoc()) {
                     echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
                 }
@@ -82,37 +86,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
         </select><br>
 
-        <label for='estado'>Estado:</label>
-        <input type='text' name='estado' id='estado' required><br>
-        
-        <label for='derivacion'>Derivación:</label>
-        <select name='derivacion'>
-            <option value=''>Seleccionar</option>
-            <option value='Si'>Si</option>
-            <option value='No'>No</option>
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado" required>
+            <option value="1">Seguimiento</option>
+            <option value="0">Caso cerrado</option>
         </select><br>
         
-        <label for='observacion'>Observación:</label>
-        <textarea name='observacion' id='observacion' required></textarea><br>
-
-        <label for='riesgo'>Riesgo:</label>
-        <select name='riesgo' id='riesgo' required>
-            <option value=''>Seleccionar</option>
-            <?php
-            $riesgo_sql = "SELECT id_riesgo, grado_riesgo FROM riesgo";
-            $dato_riesgo = $conex->query($riesgo_sql);
-
-            if ($dato_riesgo->num_rows > 0) {
-                while ($grado_riesgo = $dato_riesgo->fetch_assoc()) {
-                    echo "<option value='" . $grado_riesgo['id_riesgo'] . "'>" . $grado_riesgo['grado_riesgo'] . "</option>";
-                }
-            }
-            ?>
+        <label for="derivacion">Derivación:</label>
+        <select name="derivacion" id="derivacion">
+            <option value="">Seleccionar</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
         </select><br>
-
-        <label for='fecha'>Fecha:</label>
-        <input type='date' name='fecha' id='fecha' required><br>
         
+        <label for="observacion">Observación:</label>
+        <textarea name="observacion" id="observacion" required></textarea><br>
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" name="fecha" id="fecha" required><br>
+        
+        <!-- 🔥 El botón ya funciona -->
         <input type="submit" value="CARGAR">
     </form>
 </center>

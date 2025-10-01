@@ -30,6 +30,11 @@
             $numpagina = "0";
             $cantidadregistros_presion = "5";  
             $numpagina_presion = "0";
+            // 👇 Agregá estas nuevas
+$numpagina_sifilis = 0;
+$numpagina_vih = 0;
+$numpagina_vph = 0;
+$numpagina_mamografia = 0;
             if (isset($_GET['pagina'])) {
                 $numpagina = $_GET['pagina'];
             }
@@ -66,19 +71,19 @@ WHERE pr.id_paciente = $id_paciente
 LIMIT $cantidadregistros_presion OFFSET " . ($cantidadregistros_presion*$numpagina_presion);
 $num_presion = "SELECT * FROM presion WHERE id_paciente = $id_paciente";
 
-           $datos_sangreoculta = "
+$datos_sangreoculta = "
 SELECT s.sede,
        l.nombre AS localidad,
        s.estado,
        s.observacion,
-       s.fecha
-       s.derivacion,
+       s.fecha,
+       s.derivacion
 FROM sangre_oculta s
 LEFT JOIN localidades_la_matanza l ON s.localidad = l.id
 WHERE s.id_paciente = $id_paciente
 LIMIT $cantidadregistros OFFSET " . ($cantidadregistros*$numpagina);
 
-// SÍFILIS
+
 $datos_sifilis = "
 SELECT s.sede,
        l.nombre AS localidad,
@@ -90,7 +95,8 @@ FROM sifilis s
 LEFT JOIN localidades_la_matanza l ON s.localidad = l.id
 WHERE s.id_paciente = $id_paciente
 LIMIT $cantidadregistros OFFSET " . ($cantidadregistros * $numpagina_sifilis);
-$resultadosifilis = $conex->query($datos_sifilis);
+
+
 
 // VIH
 $datos_vih = "
@@ -175,7 +181,7 @@ $resultadomamografia = $conex->query($datos_mamografia);
                 }
 
                 if ($datossifilis = $resultadosifilis->fetch_assoc()) {
-                    $sifilis = $datossifilis['sifilis'];
+                  
                     $observacionsifilis = $datossifilis['observacion'];
                     $derivacionsifilis = $datossifilis['derivacion'];
                 }
@@ -356,7 +362,8 @@ $resultadomamografia = $conex->query($datos_mamografia);
                         echo "<tr>";
                         echo "<td>" . $datosglucemia['sede'] . "</td>";
                         echo "<td>" . $datosglucemia['localidad'] . "</td>";
-                        echo "<td>" . $datosglucemia['estado'] . "</td>";
+                        echo "<td>" . ($datosglucemia['estado'] == 1 ? "Seguimiento" : "Caso cerrado") . "</td>";
+
                         echo "<td>" . $datosglucemia['derivacion'] . "</td>";
                         echo "<td>" . $datosglucemia['observacion'] . "</td>";
                         echo "<td>" . $datosglucemia['fecha'] . "</td>";
@@ -409,9 +416,10 @@ $resultadomamografia = $conex->query($datos_mamografia);
 
                 do {
                     echo "<tr>";
+                    // Mostramos directamente lo que se escribió
                     echo "<td>" . htmlspecialchars($datossangreoculta['sede']) . "</td>";
                     echo "<td>" . htmlspecialchars($datossangreoculta['localidad']) . "</td>";
-                    echo "<td>" . htmlspecialchars($datossangreoculta['estado']) . "</td>";
+                    echo "<td>" . ($datossangreoculta['estado'] == 1 ? "Seguimiento" : "Caso cerrado") . "</td>";
                     echo "<td>" . (($datossangreoculta['derivacion'] == '1' || $datossangreoculta['derivacion'] === 1) ? 'Sí' : 'No') . "</td>";
                     echo "<td>" . htmlspecialchars($datossangreoculta['observacion']) . "</td>";
                     echo "<td>" . htmlspecialchars($datossangreoculta['fecha']) . "</td>";
@@ -428,6 +436,7 @@ $resultadomamografia = $conex->query($datos_mamografia);
 </div>
 
 
+
 <!-- SIFILIS -->
 <div class="glucemia">
     <h3>Sífilis</h3>
@@ -436,16 +445,25 @@ $resultadomamografia = $conex->query($datos_mamografia);
             if ($datossifilis = $resultadosifilis->fetch_assoc()) {
                 echo "<table border=1>";
                 echo "<tr>";
-                echo "<th>Sífilis</th>";
-                echo "<th>Observación</th>";
+                echo "<th>Sede</th>";
+                echo "<th>Localidad</th>";
+                echo "<th>Estado</th>";
                 echo "<th>Derivación</th>";
+                echo "<th>Observación</th>";
+                echo "<th>Fecha</th>";
                 echo "</tr>";
 
                 do {
+                    // Convertimos estado de 0/1 a texto
+                    $estado_texto = ($datossifilis['estado'] == 1) ? "Seguimiento" : "Caso cerrado";
+
                     echo "<tr>";
-                    echo "<td>" . $datossifilis['sifilis'] . "</td>";
-                    echo "<td>" . $datossifilis['observacion'] . "</td>";
+                    echo "<td>" . $datossifilis['sede'] . "</td>";
+                    echo "<td>" . $datossifilis['localidad'] . "</td>";
+                    echo "<td>" . $estado_texto . "</td>";
                     echo "<td>" . $datossifilis['derivacion'] . "</td>";
+                    echo "<td>" . $datossifilis['observacion'] . "</td>";
+                    echo "<td>" . $datossifilis['fecha'] . "</td>";
                     echo "</tr>";
                 } while ($datossifilis = $resultadosifilis->fetch_assoc());
 
@@ -457,6 +475,8 @@ $resultadomamografia = $conex->query($datos_mamografia);
     ?>
     <button><a href='cargar/cargar_sifilis.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
 </div>
+
+
 
 <!-- VIH -->
 <div class="glucemia">
