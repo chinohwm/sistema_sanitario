@@ -30,12 +30,23 @@
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
 
+            // Traer localidades
+            $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $vih = $_POST['vih'];
+                
                 $derivacion = $_POST['derivacion'];
                 $observacion = $_POST['observacion'];
+                $estado = (isset($_POST['estado']) && $_POST['estado'] === "1") ? 1 : 0;
+                $localidad = $_POST['localidad'];
+                $sede = $_POST['sede'];
+                $fecha = date("Y-m-d"); // Fecha actual de la PC
 
-                $query = "INSERT INTO vih (id_paciente, vih, observacion, derivacion) VALUES ('$id_paciente', '$vih', '$observacion', '$derivacion')";
+
+
+                $query = "INSERT INTO vih (id_paciente, estado, observacion, derivacion, sede, localidad, fecha) 
+                VALUES ('$id_paciente', '$estado', '$observacion', '$derivacion', '$sede', '$localidad', '$fecha')";
+
 
                 if ($conex->query($query)) {
                     header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
@@ -49,13 +60,24 @@
             <h1>Cargar Datos VIH</h1>
             <form method='POST' action='<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>'>
                 <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
-                <label for='estado'>VIH:</label>
-                <select name='vih'>
-                    <option value='Positivo'>Positivo</option>
-                    <option value='Negativo'>Negativo</option>
-                </select><br>
+                 <label for='localidad'>Localidad:</label>
+                    <select name='localidad' id='localidad' required>
+                    <option value=''>Seleccione una localidad</option>
+                    <?php while($loc = $localidades->fetch_assoc()) { ?>
+                        <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
+                    <?php } ?>
+                    </select><br>
+                
+                    <label for='sede'>Sede:</label>
+                    <input type='text' name='sede' id='sede' required><br>
+
                 <label for='observacion'>Observación:</label>
                 <textarea name='observacion' id='observacion'></textarea><br>
+                 <label for='estado'>Vph:</label>
+                    <select name='estado' required>
+                    <option value='1'>Seguimiento</option>
+                    <option value='0'>Caso cerrado</option>
+                    </select><br>
                 <label for='derivacion'>Derivación:</label>
                 <select name='derivacion'>
                     <option value='Si'>Si</option>

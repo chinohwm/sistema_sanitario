@@ -187,7 +187,7 @@ $resultadomamografia = $conex->query($datos_mamografia);
                 }
 
                 if ($datosvih = $resultadovih->fetch_assoc()) {
-                    $vih = $datosvih['vih'];
+                    
                     $observacionvih = $datosvih['observacion'];
                     $derivacionvih = $datosvih['derivacion'];
                 }
@@ -484,19 +484,28 @@ $resultadomamografia = $conex->query($datos_mamografia);
     <?php 
         if (isset($nombre)) {
             if ($datosvih = $resultadovih->fetch_assoc()) {
-                echo "<table border=1>";
-                echo "<tr>";
-                echo "<th>VIH</th>";
-                echo "<th>Observación</th>";
-                echo "<th>Derivación</th>";
-                echo "</tr>";
+               echo "<table border=1>";
+                    echo "<tr>";
+                    echo "<th>Sede</th>";
+                    echo "<th>Localidad</th>";
+                    echo "<th>Estado</th>";
+                    echo "<th>Derivación</th>";
+                    echo "<th>Observación</th>";
+                    echo "<th>Fecha</th>";
+              
+                    echo "</tr>";
 
                 do {
                     echo "<tr>";
-                    echo "<td>" . $datosvih['vih'] . "</td>";
-                    echo "<td>" . $datosvih['observacion'] . "</td>";
-                    echo "<td>" . $datosvih['derivacion'] . "</td>";
-                    echo "</tr>";
+                    echo "<tr>";
+                        echo "<td>" . $datosvih['sede'] . "</td>";
+                        echo "<td>" . $datosvih['localidad'] . "</td>";
+                        echo "<td>" . ($datosvih['estado'] == 1 ? "Seguimiento" : "Caso cerrado") . "</td>";
+
+                        echo "<td>" . $datosvih['derivacion'] . "</td>";
+                        echo "<td>" . $datosvih['observacion'] . "</td>";
+                        echo "<td>" . $datosvih['fecha'] . "</td>";
+                        echo "</tr>";
                 } while ($datosvih = $resultadovih->fetch_assoc());
 
                 echo "</table>";
@@ -514,18 +523,24 @@ $resultadomamografia = $conex->query($datos_mamografia);
     <?php 
         if (isset($nombre)) {
             if ($datosvph = $resultadovph->fetch_assoc()) {
-                echo "<table border=1>";
+                echo "<table border='1'>";
                 echo "<tr>";
+                echo "<th>Sede</th>";
+                echo "<th>Localidad</th>";
                 echo "<th>Estado</th>";
-                echo "<th>Fecha</th>";
+                echo "<th>Derivación</th>";
                 echo "<th>Observación</th>";
+                echo "<th>Fecha</th>";
                 echo "</tr>";
 
                 do {
                     echo "<tr>";
-                    echo "<td>" . $datosvph['estado'] . "</td>";
-                    echo "<td>" . $datosvph['fecha'] . "</td>";
+                    echo "<td>" . $datosvph['sede'] . "</td>";
+                    echo "<td>" . $datosvph['localidad'] . "</td>";
+                    echo "<td>" . ($datosvph['estado'] == 1 ? "Seguimiento" : "Caso cerrado") . "</td>";
+                    echo "<td>" . ($datosvph['derivacion'] == 1 ? "Sí" : "No") . "</td>";
                     echo "<td>" . $datosvph['observacion'] . "</td>";
+                    echo "<td>" . $datosvph['fecha'] . "</td>";
                     echo "</tr>";
                 } while ($datosvph = $resultadovph->fetch_assoc());
 
@@ -535,8 +550,11 @@ $resultadomamografia = $conex->query($datos_mamografia);
             }
         }
     ?>
-    <button><a href='cargar/cargar_vph.php?id=<?php echo $id_paciente; ?>' class='cargar'>Cargar</a></button>
+    <button>
+        <a href="cargar/cargar_vph.php?id=<?php echo $id_paciente; ?>" class="cargar">Cargar</a>
+    </button>
 </div>
+
 
 <!-- MAMOGRAFÍA (solo mujeres) -->
 <?php if (isset($genero) && $genero === "Femenino"){?>

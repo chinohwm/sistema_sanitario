@@ -28,13 +28,23 @@
 
         if (isset($_GET['id'])) {
             $id_paciente = $_GET['id'];
+            
+              // Traer localidades
+            $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza");
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $estado = $_POST['estado'];
-                $fecha = $_POST['fecha'];
+                 
+                $derivacion = $_POST['derivacion'];
                 $observacion = $_POST['observacion'];
+                $estado = (isset($_POST['estado']) && $_POST['estado'] === "1") ? 1 : 0;
+                $localidad = $_POST['localidad'];
+                $sede = $_POST['sede'];
+                $fecha = date("Y-m-d"); // Fecha actual de la PC
 
-                $query = "INSERT INTO vph (id_paciente, estado, fecha, observacion) VALUES ('$id_paciente', '$estado', '$fecha', '$observacion')";
+
+               $query = "INSERT INTO vph (id_paciente, estado, fecha, observacion, derivacion, localidad, sede) 
+                VALUES ('$id_paciente', '$estado', '$fecha', '$observacion', '$derivacion', '$localidad', '$sede')";
+
 
                 if ($conex->query($query)) {
                     header("Location: ../ficha_paciente.php?id_paciente=$id_paciente");
@@ -50,15 +60,33 @@
             <h1>Cargar Datos VPH</h1>
             <form method='POST' action='<?php echo $_SERVER['PHP_SELF'] . "?id=$id_paciente"; ?>'>
                 <input type='hidden' name='id_paciente' value='<?php echo $id_paciente; ?>'>
-                <label for='estado'>Estado:</label>
-                <select name='estado'>
-                    <option value='Positivo'>Positivo</option>
-                    <option value='Negativo'>Negativo</option>
-                </select><br>
-                <label for='fecha'>Fecha:</label>
-                <input type='date' name='fecha' id='fecha' required><br>
-                <label for='observacion'>Observación:</label><br>
-                <textarea name='observacion' id='observacion' required></textarea><br>
+
+                 <label for='localidad'>Localidad:</label>
+                    <select name='localidad' id='localidad' required>
+                    <option value=''>Seleccione una localidad</option>
+                    <?php while($loc = $localidades->fetch_assoc()) { ?>
+                        <option value='<?php echo $loc['id']; ?>'><?php echo $loc['nombre']; ?></option>
+                    <?php } ?>
+                    </select><br>
+                    
+                    <label for='sede'>Sede:</label>
+                    <input type='text' name='sede' id='sede' required><br>
+
+                    <label for='observacion'>Observación:</label><br>
+                    <textarea name='observacion' id='observacion' required></textarea><br>
+
+                    <label for='estado'>Vph:</label>
+                    <select name='estado' required>
+                    <option value='1'>Seguimiento</option>
+                    <option value='0'>Caso cerrado</option>
+                    </select><br>
+
+                    <label for='derivacion'>Derivación:</label>
+                    <select name='derivacion'>
+                    <option value='Si'>Si</option>
+                    <option value='No'>No</option>
+                    </select><br>   
+                
                 <button type='submit'>Cargar Datos</button>
             </form>
     </center>
