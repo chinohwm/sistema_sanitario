@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar AUH</title>
-
-    <link rel="icon" href="../../img/icono.png">
-</head>
-<body>
-    <h1>Cargar nuevo paciente AUH</h1>
-
 <?php
 session_start();
 
@@ -19,16 +7,9 @@ if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
     exit();
 }
 
-$id_cargo = $_SESSION['id_cargo'];
-
-// 🔗 Incluir menú según cargo
-if ($id_cargo == 1) {
-    include("../../layouts/nav_admin.html"); 
-} elseif ($id_cargo == 2) {
-    include("../../layouts/nav_promotor.html"); 
-}
-
 include ("../../db/conexion.php");
+
+$id_cargo = $_SESSION['id_cargo'];
 
 // 🧾 Procesar formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -42,68 +23,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telefono = $_POST['telefono'];
     $gmail = $_POST['gmail'];
 
-    // 🛡️ Preparar consulta
+    // 🛡️ Consulta SQL
     $sql = "INSERT INTO auh (nombre, apellido, dni, fecha_nac, domicilio, localidad, sede, telefono, gmail) 
             VALUES ('$nombre', '$apellido', '$dni', '$fecha_nac', '$domicilio', '$localidad', '$sede', '$telefono', '$gmail')";
 
     if ($conex->query($sql) === TRUE) {
-        echo "<p style='color:green;'>✅ Paciente registrado correctamente.</p>";
-        // Si querés redirigir después de guardar:
-        // header("Location: ../cargar/cargar_auh.php");
-        // exit();
+        // ✅ Redirigir al listado de AUH
+        header("Location: ../auh.php");
+        exit();
     } else {
-        echo "<p style='color:red;'>❌ Error en el registro: " . $conex->error . "</p>";
+        $error = "Error en el registro: " . $conex->error;
     }
 
     $conex->close();
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargar Paciente AUH</title>
+</head>
+<body>
+    <h1>Registrar Paciente AUH</h1>
 
-<center>
-    <h2>Registrar AUH</h2>
+    <?php
+    // 🔗 Incluir menú según cargo
+    if ($id_cargo == 1) {
+        include("../../layouts/nav_admin.html"); 
+    } elseif ($id_cargo == 2) {
+        include("../../layouts/nav_promotor.html"); 
+    }
 
-    <form method="POST" action="">
-        <label for="nombre">Nombre:</label><br>
-        <input type="text" name="nombre" id="nombre" required><br><br>
+    // ⚠️ Mostrar error si hubo
+    if (isset($error)) {
+        echo "<p style='color:red;'>$error</p>";
+    }
+    ?>
 
-        <label for="apellido">Apellido:</label><br>
-        <input type="text" name="apellido" id="apellido" required><br><br>
+    <center>
+        <form method="POST" action="">
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" name="nombre" id="nombre" required><br><br>
 
-        <label for="dni">DNI:</label><br>
-        <input type="number" name="dni" id="dni" required><br><br>
+            <label for="apellido">Apellido:</label><br>
+            <input type="text" name="apellido" id="apellido" required><br><br>
 
-        <label for="fecha_nac">Fecha de nacimiento:</label><br>
-        <input type="date" name="fecha_nac" id="fecha_nac" required><br><br>
+            <label for="dni">DNI:</label><br>
+            <input type="number" name="dni" id="dni" required><br><br>
 
-        <label for="domicilio">Domicilio:</label><br>
-        <input type="text" name="domicilio" id="domicilio" required><br><br>
+            <label for="fecha_nac">Fecha de nacimiento:</label><br>
+            <input type="date" name="fecha_nac" id="fecha_nac" required><br><br>
 
-        <label for="localidad">Localidad:</label><br>
-        <select name="localidad" id="localidad" required>
-            <option value="">Seleccionar</option>
-            <?php
-            $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
-            $result_localidades = $conex->query($sql_localidades);
+            <label for="domicilio">Domicilio:</label><br>
+            <input type="text" name="domicilio" id="domicilio" required><br><br>
 
-            if ($result_localidades && $result_localidades->num_rows > 0) {
-                while ($row = $result_localidades->fetch_assoc()) {
-                    echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+            <label for="localidad">Localidad:</label><br>
+            <select name="localidad" id="localidad" required>
+                <option value="">Seleccionar</option>
+                <?php
+                $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
+                $result_localidades = $conex->query($sql_localidades);
+
+                if ($result_localidades && $result_localidades->num_rows > 0) {
+                    while ($row = $result_localidades->fetch_assoc()) {
+                        echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+                    }
                 }
-            }
-            ?>
-        </select><br><br>
+                ?>
+            </select><br><br>
 
-        <label for="sede">Organización (Sede):</label><br>
-        <input type="text" name="sede" id="sede" required><br><br>
+            <label for="sede">Organización (Sede):</label><br>
+            <input type="text" name="sede" id="sede" required><br><br>
 
-        <label for="telefono">Teléfono:</label><br>
-        <input type="text" name="telefono" id="telefono" required><br><br>
+            <label for="telefono">Teléfono:</label><br>
+            <input type="text" name="telefono" id="telefono" required><br><br>
 
-        <label for="gmail">Correo electrónico:</label><br>
-        <input type="email" name="gmail" id="gmail" required><br><br>
+            <label for="gmail">Correo electrónico:</label><br>
+            <input type="email" name="gmail" id="gmail" required><br><br>
 
-        <input type="submit" value="CARGAR">
-    </form>
-</center>
+            <input type="submit" value="Registrar Paciente">
+        </form>
+    </center>
 </body>
 </html>
