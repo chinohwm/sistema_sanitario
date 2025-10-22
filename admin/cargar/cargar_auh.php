@@ -3,7 +3,7 @@ session_start();
 
 // 🔒 Verificar sesión
 if (!isset($_SESSION['id_cargo']) || !isset($_SESSION['usuario'])) {
-    header("Location: ../login.php");
+    header("Location: ../../../login.php");
     exit();
 }
 
@@ -44,9 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Paciente AUH</title>
+    <link rel="stylesheet" href="../../css/cargar_auh.css">
+    <link rel="icon" href="../../img/icono.png">
 </head>
 <body>
-    <h1>Registrar Paciente AUH</h1>
+    
 
     <?php
     // 🔗 Incluir menú según cargo
@@ -61,50 +63,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p style='color:red;'>$error</p>";
     }
     ?>
-
+<h1>Registrar Paciente AUH</h1>
     <center>
         <form method="POST" action="">
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" name="nombre" id="nombre" required><br><br>
+  <div class="form-grid">
+    <input type="text" name="nombre" class="input" placeholder="Nombre" required><br>
+    <input type="text" name="apellido" class="input" placeholder="Apellido" required><br>
 
-            <label for="apellido">Apellido:</label><br>
-            <input type="text" name="apellido" id="apellido" required><br><br>
+    <input type="number" name="dni" class="input" placeholder="DNI" required><br>
+    <input type="date" name="fecha_nac" class="input" required><br><br>
 
-            <label for="dni">DNI:</label><br>
-            <input type="number" name="dni" id="dni" required><br><br>
+    <input type="text" name="domicilio" class="input" placeholder="Domicilio" required><br>
+    <input type="text" name="sede" class="input" placeholder="Sede" required><br>
 
-            <label for="fecha_nac">Fecha de nacimiento:</label><br>
-            <input type="date" name="fecha_nac" id="fecha_nac" required><br><br>
+    <input type="text" name="telefono" class="input" placeholder="Teléfono" required><br><br>
+    <input type="email" name="gmail" class="input" placeholder="Correo electrónico" required><br>
 
-            <label for="domicilio">Domicilio:</label><br>
-            <input type="text" name="domicilio" id="domicilio" required><br><br>
+    <div class="form-grid-full">
+      <label for="localidad">Localidad:</label><br>
+      <select name="localidad" id="localidad" class="input" required style="width:100%;">
+        <option value="">Seleccionar</option>
+        <?php
+        $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
+        $result_localidades = $conex->query($sql_localidades);
+        if ($result_localidades && $result_localidades->num_rows > 0) {
+          while ($row = $result_localidades->fetch_assoc()) {
+            echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+          }
+        }
+        ?>
+      </select>
+    </div>
 
-            <label for="localidad">Localidad:</label><br>
-            <select name="localidad" id="localidad" required>
-                <option value="">Seleccionar</option>
-                <?php
-                $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
-                $result_localidades = $conex->query($sql_localidades);
+    <input type="submit"  class="input" value="Registrar Paciente"><br>
+  </div>
+</form>
 
-                if ($result_localidades && $result_localidades->num_rows > 0) {
-                    while ($row = $result_localidades->fetch_assoc()) {
-                        echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                    }
-                }
-                ?>
-            </select><br><br>
-
-            <label for="sede">Organización (Sede):</label><br>
-            <input type="text" name="sede" id="sede" required><br><br>
-
-            <label for="telefono">Teléfono:</label><br>
-            <input type="text" name="telefono" id="telefono" required><br><br>
-
-            <label for="gmail">Correo electrónico:</label><br>
-            <input type="email" name="gmail" id="gmail" required><br><br>
-
-            <input type="submit" value="Registrar Paciente">
-        </form>
     </center>
 </body>
 </html>

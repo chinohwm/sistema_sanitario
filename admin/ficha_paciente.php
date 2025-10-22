@@ -47,7 +47,7 @@ $numpagina_mamografia = 0;
 
            $datos_personales = "
 SELECT p.nombre, p.apellido, p.genero, p.fecha_nacimiento, p.dni, p.correo_electronico,
-       p.domicilio, p.obra_social, 
+       p.domicilio, p.obra_social, p.celular,
        l.nombre AS nombre_localidad
 FROM pacientes p
 LEFT JOIN localidades_la_matanza l ON p.localidad = l.id
@@ -213,6 +213,8 @@ $resultadomamografia = $conex->query($datos_mamografia);
                     $localidad = $datospersonales['nombre_localidad'];
                     $domicilio = $datospersonales['domicilio'];
                     $obra_social = $datospersonales['obra_social'];
+                    $celular = $datospersonales['celular'];
+
                
                 }
 
@@ -264,6 +266,34 @@ $resultadomamografia = $conex->query($datos_mamografia);
                 echo "<h4>Obra social</h4>";
                 echo "<p>" . $obra_social . "</p>";
                 echo "</div>";
+
+                // Botón de WhatsApp
+if (!empty($celular)) {
+    // Convertir el número al formato correcto
+    $numero_formateado = preg_replace('/[^0-9]/', '', $celular); // elimina espacios, guiones, etc.
+    if (strpos($numero_formateado, '54') !== 0) {
+        $numero_formateado = '54' . $numero_formateado; // agrega +54 si no está
+    }
+
+    $mensaje = urlencode("Hola $nombre, le escribimos desde la Secretaría de Salud. ¿Cómo se encuentra?");
+    
+    echo "<div class='info-card'>";
+    echo "<h4>Contacto</h4>";
+    echo "<a href='https://wa.me/$numero_formateado?text=$mensaje' target='_blank' 
+            style='background-color:#25D366;
+                   color:white;
+                   padding:10px 15px;
+                   border-radius:8px;
+                   text-decoration:none;
+                   font-weight:bold;
+                   display:inline-block;'>
+            📱 Enviar WhatsApp
+          </a>";
+    echo "</div>";
+} else {
+    echo "<div class='info-card'><h4>Contacto</h4><p>No tiene celular registrado.</p></div>";
+}
+
                 
               
                 

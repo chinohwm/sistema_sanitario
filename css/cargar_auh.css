@@ -1,0 +1,79 @@
+/* From Uiverse.io by anniekoop */ 
+.input {
+  max-width: 190px;
+  padding: 0.875rem;
+  font-size: 1rem;
+  border: 1.5px solid #000;
+  border-radius: 0.5rem;
+  box-shadow: 2.5px 3px 0 #000;
+  outline: none;
+  transition: ease 0.25s;
+}
+
+.input:focus {
+  box-shadow: 5.5px 7px 0 black;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #eef6f8;
+}
+
+h1 {
+  text-align: center;
+  color: #000;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+
+/* === CONTENEDOR DEL FORMULARIO === */
+form {
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 #000;
+  width: 400px; /* más angosto */
+  margin: 20px auto;
+  padding: 20px 25px;
+}
+
+/* === DISTRIBUCIÓN DE INPUTS === */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* menos separación */
+  align-items: center;
+}
+
+/* === SECCIÓN LOCALIDAD === */
+.form-grid-full {
+  width: 100%;
+  text-align: left;
+}
+
+/* === BOTÓN === */
+input[type="submit"] {
+  width: 60%;
+  padding: 8px;
+  background-color: #00ff66;
+  border: 1.5px solid #000;
+  border-radius: 8px;
+  box-shadow: 2px 3px 0 #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #00e85d;
+  transform: scale(1.03);
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 480px) {
+  form {
+    width: 90%;
+  }
+  input[type="submit"] {
+    width: 100%;
+  }
+}
