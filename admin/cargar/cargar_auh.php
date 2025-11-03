@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Paciente AUH</title>
     <link rel="stylesheet" href="../../css/cargar_auh.css">
-    <link rel="icon" href="../../img/icono.png">
+    <link rel="icon" href="sistema_sanitario/img/secretariasalud.png">
 </head>
 <body>
     
@@ -63,7 +63,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p style='color:red;'>$error</p>";
     }
     ?>
-<h1>Registrar Paciente AUH</h1>
+    
+<div class="header">
+  
+    <h1>Registrar Paciente AUH</h1>
+</div>
+
     <center>
         <form method="POST" action="">
   <div class="form-grid">

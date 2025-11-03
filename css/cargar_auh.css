@@ -1,119 +1,156 @@
-/* 🌸 Estilo general */
+/* 🔹 Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #f3f4f7, #e3e7ec);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #e0f2fe 100%);
+    min-height: 100vh;
 }
 
-/* 🧿 Logo */
-.logo {
-  width: 70px;
-  height: 70px;
-  position: absolute;
-  top: 15px;
-  left: 20px;
+/* 🔹 Encabezado institucional */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0ea5e9;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* 🧾 Título */
-h1 {
-  text-align: center;
-  color: #2d2d2d;
-  margin-top: 100px;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border-bottom: 3px solid #5b7cff;
-  display: inline-block;
-  padding-bottom: 5px;
+.header img {
+    height: 75px;
+    width: auto;
+    margin-bottom: 10px;
 }
 
-/* 📋 Formulario */
+/* 🔹 Título */
+.header h1 {
+    color: #000000; /* negro */
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+}
+
+.header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: #1e3a8a;
+    border-radius: 2px;
+}
+
+/* 🔹 Contenedor del formulario */
+center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 form {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 30px 40px;
-  margin-top: 30px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 50px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e7ff;
+    width: 100%;
+    max-width: 550px;
+    margin-top: 40px;
 }
 
-/* 🧩 Grilla de inputs */
+/* 🔹 Grid de campos */
 .form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* ✏️ Inputs */
+.form-grid-full {
+    margin-top: 10px;
+}
+
+/* 🔹 Inputs */
 .input {
-  width: 100%;
-  padding: 12px 15px;
-  font-size: 1rem;
-  border: 1.5px solid #ccc;
-  border-radius: 8px;
-  transition: all 0.3s ease-in-out;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1.5px solid #c7d2fe;
+    border-radius: 10px;
+    background-color: #f9fafb;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.25s ease;
 }
 
-/* 🔵 Inputs con glow azul neón */
 .input:focus {
-  outline: none;
-  border-color: #5b7cff;
-  box-shadow: 
-    0 0 8px #5b7cff,
-    0 0 16px #5b7cff,
-    0 0 24px #5b7cff,
-    0 0 32px #5b7cff;
-  transition: all 0.3s ease-in-out;
-  transform: scale(1.01);
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* 📍 Select */
+.input::placeholder {
+    color: #94a3b8;
+}
+
+/* 🔹 Select */
 select.input {
-  background: #fff;
-  cursor: pointer;
+    cursor: pointer;
 }
 
-/* 📤 Botón de enviar */
+/* 🔹 Botón */
 input[type="submit"] {
-  background: linear-gradient(135deg, #5b7cff, #7b5bff);
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 12px 20px;
-  border-radius: 8px;
+    background: linear-gradient(135deg, #1e40af, #2563eb, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 14px;
+    margin-top: 10px;
 }
 
-/* 🟦 Glow en botón al hover */
 input[type="submit"]:hover {
-  background: linear-gradient(135deg, #7b5bff, #5b7cff);
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #5b7cff, 0 0 20px #7b5bff;
+    background: linear-gradient(135deg, #1e3a8a, #1d4ed8, #0284c7);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
 }
 
-/* 📱 Responsivo */
+/* 🔹 Etiqueta Localidad */
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #1e3a8a;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* 🔹 Responsive */
 @media (max-width: 600px) {
-  form {
-    width: 90%;
-    padding: 25px;
-  }
+    .header img {
+        height: 60px;
+    }
 
-  h1 {
-    font-size: 1.5rem;
-  }
+    .header h1 {
+        font-size: 1.7rem;
+    }
 
-  .logo {
-    width: 55px;
-    height: 55px;
-  }
+    form {
+        padding: 25px 20px;
+        margin: 20px 10px;
+    }
 }
