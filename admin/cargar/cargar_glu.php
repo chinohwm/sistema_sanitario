@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Glucemia || Secretaria De Salud</title>
     <link rel="stylesheet" href="../../css/glupre.css">
-    <link rel="icon" href="../../img/icono.png">
+    <link rel="icon" href="../../img/secretariasalud.png">
 </head>
 <body>
 <?php

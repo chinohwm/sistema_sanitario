@@ -1,79 +1,119 @@
-/* From Uiverse.io by anniekoop */ 
-.input {
-  max-width: 190px;
-  padding: 0.875rem;
-  font-size: 1rem;
-  border: 1.5px solid #000;
-  border-radius: 0.5rem;
-  box-shadow: 2.5px 3px 0 #000;
-  outline: none;
-  transition: ease 0.25s;
-}
-
-.input:focus {
-  box-shadow: 5.5px 7px 0 black;
-}
+/* 🌸 Estilo general */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #eef6f8;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f3f4f7, #e3e7ec);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
+/* 🧿 Logo */
+.logo {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+}
+
+/* 🧾 Título */
 h1 {
   text-align: center;
-  color: #000;
-  margin-top: 40px;
-  margin-bottom: 15px;
+  color: #2d2d2d;
+  margin-top: 100px;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 3px solid #5b7cff;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
-/* === CONTENEDOR DEL FORMULARIO === */
+/* 📋 Formulario */
 form {
-  background-color: #fff;
-  border: 2px solid #000;
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 #000;
-  width: 400px; /* más angosto */
-  margin: 20px auto;
-  padding: 20px 25px;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 30px 40px;
+  margin-top: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
 }
 
-/* === DISTRIBUCIÓN DE INPUTS === */
+/* 🧩 Grilla de inputs */
 .form-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* menos separación */
-  align-items: center;
+  gap: 15px;
 }
 
-/* === SECCIÓN LOCALIDAD === */
-.form-grid-full {
+/* ✏️ Inputs */
+.input {
   width: 100%;
-  text-align: left;
-}
-
-/* === BOTÓN === */
-input[type="submit"] {
-  width: 60%;
-  padding: 8px;
-  background-color: #00ff66;
-  border: 1.5px solid #000;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
   border-radius: 8px;
-  box-shadow: 2px 3px 0 #000;
+  transition: all 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+/* 🔵 Inputs con glow azul neón */
+.input:focus {
+  outline: none;
+  border-color: #5b7cff;
+  box-shadow: 
+    0 0 8px #5b7cff,
+    0 0 16px #5b7cff,
+    0 0 24px #5b7cff,
+    0 0 32px #5b7cff;
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.01);
+}
+
+/* 📍 Select */
+select.input {
+  background: #fff;
   cursor: pointer;
+}
+
+/* 📤 Botón de enviar */
+input[type="submit"] {
+  background: linear-gradient(135deg, #5b7cff, #7b5bff);
+  color: white;
   font-weight: bold;
-  transition: 0.2s;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 20px;
+  border-radius: 8px;
 }
 
+/* 🟦 Glow en botón al hover */
 input[type="submit"]:hover {
-  background-color: #00e85d;
-  transform: scale(1.03);
+  background: linear-gradient(135deg, #7b5bff, #5b7cff);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #5b7cff, 0 0 20px #7b5bff;
 }
 
-/* === RESPONSIVO === */
-@media (max-width: 480px) {
+/* 📱 Responsivo */
+@media (max-width: 600px) {
   form {
     width: 90%;
+    padding: 25px;
   }
-  input[type="submit"] {
-    width: 100%;
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 55px;
+    height: 55px;
   }
 }
