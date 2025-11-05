@@ -7,9 +7,10 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #e0f2fe 100%);
+    background-color: #f8fafc;
     min-height: 100vh;
 }
+
 
 /* 🔹 Encabezado institucional */
 .header {
@@ -48,7 +49,7 @@ body {
     transform: translateX(-50%);
     width: 120px;
     height: 3px;
-    background: #1e3a8a;
+    background: #fbfcff;
     border-radius: 2px;
 }
 
@@ -108,28 +109,6 @@ select.input {
     cursor: pointer;
 }
 
-/* 🔹 Botón */
-input[type="submit"] {
-    background: linear-gradient(135deg, #1e40af, #2563eb, #06b6d4);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    padding: 14px;
-    margin-top: 10px;
-}
-
-input[type="submit"]:hover {
-    background: linear-gradient(135deg, #1e3a8a, #1d4ed8, #0284c7);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
-}
-
 /* 🔹 Etiqueta Localidad */
 label {
     display: block;
@@ -153,4 +132,56 @@ label {
         padding: 25px 20px;
         margin: 20px 10px;
     }
+}
+/* From Uiverse.io by BHARGAVPATEL1244 */ 
+button {
+ outline: none;
+ cursor: pointer;
+ border: none;
+ padding: 0.9rem 2rem;
+ margin: 0;
+ font-family: inherit;
+ font-size: inherit;
+ position: relative;
+ display: inline-block;
+ letter-spacing: 0.05rem;
+ font-weight: 700;
+ font-size: 17px;
+ border-radius: 500px;
+ overflow: hidden;
+ background: #36ae36;
+ color: rgb(255, 250, 248);
+}
+
+button span {
+ position: relative;
+ z-index: 10;
+ transition: color 0.4s;
+}
+
+button:hover span {
+ color: rgb(254, 251, 251);
+}
+
+button::before,
+button::after {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 0;
+}
+
+button::before {
+ content: "";
+ background: #000000;
+ width: 120%;
+ left: -10%;
+ transform: skew(30deg);
+ transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+button:hover::before {
+ transform: translate3d(100%, 0, 0);
 }

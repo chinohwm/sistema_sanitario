@@ -100,7 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </select>
     </div>
 
-    <input type="submit"  class="input" value="Registrar Paciente"><br>
+   <button type="submit" ><span>Registrar Paciente</span></button>
+
   </div>
 </form>
 
