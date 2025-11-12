@@ -179,31 +179,47 @@ $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza ORDE
         <th>Acciones</th>
     </tr>
 
-    <?php
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>{$row['nombre']}</td>
-                    <td>{$row['apellido']}</td>
-                    <td>{$row['dni']}</td>
-                    <td>{$row['fecha_nac']}</td>
-                    <td>{$row['domicilio']}</td>
-                    <td>{$row['localidad']}</td>
-                    <td>{$row['localidad_registro']}</td>
-                    <td>{$row['sede']}</td>
-                    <td>{$row['telefono']}</td>
-                    <td>{$row['gmail']}</td>
-                    <td>{$row['fecha_registro']}</td>
-                    <td>
-                        <a href='editar/editar_auh.php?id={$row['id_auh']}' class='btn-accion btn-editar'>✏️ Editar</a>
-                        <a href='eliminar/eliminar_auh.php?id={$row['id_auh']}' class='btn-accion btn-borrar' 
-                           onclick=\"return confirm('¿Seguro que querés eliminar este registro?');\">🗑️ Eliminar</a>
-                    </td>
-                  </tr>";
+  <?php
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Normalizamos el número (quitamos espacios o símbolos)
+        $telefono = preg_replace('/\D/', '', $row['telefono']);
+        // Agregamos prefijo de país (Argentina: 54) si no está
+        if (substr($telefono, 0, 2) !== "54") {
+            $telefono = "54" . $telefono;
         }
-    } else {
-        echo "<tr><td colspan='12'>No se encontraron registros con esos filtros.</td></tr>";
+
+        echo "<tr>
+                <td>{$row['nombre']}</td>
+                <td>{$row['apellido']}</td>
+                <td>{$row['dni']}</td>
+                <td>{$row['fecha_nac']}</td>
+                <td>{$row['domicilio']}</td>
+                <td>{$row['localidad']}</td>
+                <td>{$row['localidad_registro']}</td>
+                <td>{$row['sede']}</td>
+                <td>
+                    <a href='https://wa.me/{$telefono}' target='_blank' 
+                       style='display:inline-block;background-color:#25D366;color:white;
+                              padding:6px 10px;border-radius:6px;text-decoration:none;
+                              font-weight:bold;'>
+                        💬 WhatsApp
+                    </a>
+                </td>
+                <td>{$row['gmail']}</td>
+                <td>{$row['fecha_registro']}</td>
+                <td>
+                    <a href='editar/editar_auh.php?id={$row['id_auh']}' class='btn-accion btn-editar'>✏️ Editar</a>
+                    <a href='eliminar/eliminar_auh.php?id={$row['id_auh']}' class='btn-accion btn-borrar' 
+                       onclick=\"return confirm('¿Seguro que querés eliminar este registro?');\">🗑️ Eliminar</a>
+                </td>
+              </tr>";
     }
+} else {
+    echo "<tr><td colspan='12'>No se encontraron registros con esos filtros.</td></tr>";
+}
+?>
+
 
     $conex->close();
     ?>
