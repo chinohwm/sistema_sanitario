@@ -71,3 +71,36 @@
   display: flex;
   justify-content: center;
 }
+/* 🔹 Ajuste visual de los botones */
+td .acciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* separación entre los botones */
+}
+
+.btn-accion {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-editar {
+    background-color: #64b5f6;
+}
+.btn-editar:hover {
+    background-color: #42a5f5;
+}
+.btn-borrar {
+    background-color: #ef5350;
+}
+.btn-borrar:hover {
+    background-color: #e53935;
+}

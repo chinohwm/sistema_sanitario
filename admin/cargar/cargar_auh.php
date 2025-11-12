@@ -19,13 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_nac = $_POST['fecha_nac'];
     $domicilio = $_POST['domicilio'];
     $localidad = $_POST['localidad'];
+    $localidad_registro = $_POST['localidad_registro'];
     $sede = $_POST['sede'];
     $telefono = $_POST['telefono'];
     $gmail = $_POST['gmail'];
 
     // 🛡️ Consulta SQL
-    $sql = "INSERT INTO auh (nombre, apellido, dni, fecha_nac, domicilio, localidad, sede, telefono, gmail) 
-            VALUES ('$nombre', '$apellido', '$dni', '$fecha_nac', '$domicilio', '$localidad', '$sede', '$telefono', '$gmail')";
+    $sql = "INSERT INTO auh (nombre, apellido, dni, fecha_nac, domicilio, localidad,localidad_registro , sede, telefono, gmail) 
+            VALUES ('$nombre', '$apellido', '$dni', '$fecha_nac', '$domicilio', '$localidad',' $localidad_registro', '$sede', '$telefono', '$gmail')";
 
     if ($conex->query($sql) === TRUE) {
         // ✅ Redirigir al listado de AUH
@@ -76,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="text" name="apellido" class="input" placeholder="Apellido" required><br>
 
     <input type="number" name="dni" class="input" placeholder="DNI" required><br>
+    <label for="">Fecha de Nacimiento:</label>
     <input type="date" name="fecha_nac" class="input" required><br><br>
 
     <input type="text" name="domicilio" class="input" placeholder="Domicilio" required><br>
@@ -99,7 +101,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
       </select>
     </div>
-
+          <div class="form-grid-full">
+      <label for="localidad_registro">Localidad donde es registrado:</label><br>
+      <select name="localidad_registro" id="localidad_registro" class="input" required style="width:100%;">
+        <option value="">Seleccionar</option>
+        <?php
+        $sql_localidades = "SELECT id, nombre FROM localidades_la_matanza ORDER BY nombre ASC";
+        $result_localidades = $conex->query($sql_localidades);
+        if ($result_localidades && $result_localidades->num_rows > 0) {
+          while ($row = $result_localidades->fetch_assoc()) {
+            echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+          }
+        }
+        ?>
+      </select>
+    </div>
    <button type="submit" ><span>Registrar Paciente</span></button>
 
   </div>

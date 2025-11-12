@@ -72,7 +72,16 @@ if ($result && $result->num_rows > 0) {
             <a href="estadistica_localidad.php"><button class="btn-secundario">🏙️ Por Localidad</button></a>
             <a href="estadistica_comparativa.php"><button class="btn-secundario">Comparativa</button></a>
         </div>
-
+      <!-- 🔸 Nuevo botón -->
+    <form id="formPDF" action="generar_pdf_estadisticas.php" method="POST" style="display:inline;">
+        <input type="hidden" name="tipo" value="<?php echo $tipo; ?>">
+        <input type="hidden" name="periodo" value="<?php echo $periodo; ?>">
+        <input type="hidden" id="graficoImg" name="graficoImg">
+        <button type="submit" class="btn-secundario" 
+                style="background:#f48fb1;color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;">
+            ⬇️ Descargar PDF
+        </button>
+    </form>
         <!-- 🔹 Botón de actualización -->
         <div class="btn-refresh">
             <button onclick="actualizar()">🔄 Actualizar estadísticas</button>
@@ -116,5 +125,13 @@ if ($result && $result->num_rows > 0) {
             }
         });
     </script>
+    <script>
+document.getElementById('formPDF').addEventListener('submit', function(e) {
+    const canvas = document.getElementById('grafico');
+    const imgData = canvas.toDataURL('image/png'); // convierte el gráfico en imagen
+    document.getElementById('graficoImg').value = imgData; // la guarda en el input oculto
+});
+</script>
+
 </body>
 </html>
