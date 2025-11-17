@@ -171,7 +171,6 @@ $localidades = $conex->query("SELECT id, nombre FROM localidades_la_matanza ORDE
         <th>Fecha Nac.</th>
         <th>Domicilio</th>
         <th>Localidad</th>
-        <th>Localidad Registro</th>
         <th>Organización</th>
         <th>Teléfono</th>
         <th>Gmail</th>
@@ -196,7 +195,7 @@ if ($result && $result->num_rows > 0) {
                 <td>{$row['fecha_nac']}</td>
                 <td>{$row['domicilio']}</td>
                 <td>{$row['localidad']}</td>
-                <td>{$row['localidad_registro']}</td>
+
                 <td>{$row['sede']}</td>
                 <td>
                     <a href='https://wa.me/{$telefono}' target='_blank' 
@@ -220,7 +219,7 @@ if ($result && $result->num_rows > 0) {
 }
 ?>
 
-
+    <?php
     $conex->close();
     ?>
 </table>
